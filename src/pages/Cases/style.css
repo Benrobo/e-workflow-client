@@ -1,0 +1,115 @@
+.cases-cont{
+    width: 80%;
+    height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: relative;
+    margin: 10px auto;
+
+}
+
+.cases-cont .head{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.cases-cont .head h3{
+    font-weight: 600;
+}
+
+.cases-cont .form-cont{
+    width:100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.cases-cont .form-cont .box{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.cases-cont .form-cont .box label{
+    color: #777;
+}
+
+.cases-cont .form-cont .box .genid{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.cases-cont .form-cont .box .genid .icon{
+    padding: 10px;
+    font-size: 40px;
+    background: var(--yel2);
+    color: var(--yel1);
+    border-radius: 50%;
+    margin-left: 10px;
+    transform: scale(.85);
+    transition: .2s ease;
+    cursor: pointer;
+}
+
+.cases-cont .form-cont .box .genid .icon:hover{
+    transform: scale(.95);
+    transition: .2s ease;
+}
+
+.cases-cont .form-cont .box .input,
+.cases-cont .form-cont .box .note{
+    background: var(--dark1);
+    border: none;
+    outline: none;
+    color: #cccc;
+    padding: 10px 12px;
+    width: 70%;
+    resize: none;
+}
+
+
+.cases-cont .form-cont .box .select{
+    background: var(--dark1);
+    border: none;
+    outline: none;
+    color: #cccc;
+    padding: 10px 12px;
+    width: 70%;
+}
+
+
+.cases-cont .form-cont .action{
+    width: 70%;
+    height: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.cases-cont .form-cont .action .btn{
+    padding: 5px 10px;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.cases-cont .form-cont .action .cancel{
+    background: var(--dark2);
+}
+
+.cases-cont .form-cont .action .add{
+    background: var(--dark1);
+}

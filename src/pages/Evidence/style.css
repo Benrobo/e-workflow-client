@@ -1,0 +1,278 @@
+
+.evidence-top-head{
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.evidence-top-head .bx{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.evidence-top-head .bx .select{
+    padding: 10px 20px;
+    background: var(--dark1);
+    color: #777;
+    border: none;
+    outline: none;
+}
+
+
+/* evidence cont */
+
+.evidence-cont{
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    position: relative;
+}
+
+.evidence-cont .head{
+    width: 100%;
+}
+
+.evidence-cont .head p{
+    margin: 0px;
+    padding: 0px;
+    color: var(--light1);
+}
+
+.evidence-cont .head small{
+    color: var(--light3);
+}
+
+.evidence-cont .head .icon{
+    padding: 5px;
+    font-size: 25px;
+    border-radius: 50%;
+    color: var(--red1);
+    background: var(--red2);
+    margin-left:20px ;
+    opacity: .5;
+    cursor: pointer;
+}
+
+.evidence-cont .head .icon:hover{
+    opacity: 1;
+}
+
+.evidence-cont .head .head-action{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #777;
+}
+
+.evidence-cont .body{
+    width: 100%;
+    height: auto;
+    position: relative;
+    max-height: 400px;
+    margin-bottom: 50px;
+    overflow-y: scroll;
+}
+
+
+.evidence-cont .body::-webkit-scrollbar{
+    width: 4px;
+}
+
+
+.evidence-cont .body::-webkit-scrollbar-thumb{
+    background: #777;
+    border-radius: 30px;
+}
+
+.evidence-cont .body table{
+    width: 100%;
+    position: relative;
+}
+
+.evidence-cont .body thead{
+    width: 100%;
+    height: auto;
+    background: var(--dark1);
+    font-weight: 300;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.evidence-cont .body thead th{
+    padding:10px;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.evidence-cont .body tbody tr td{
+   padding: 10px;
+}
+
+.evidence-cont .body tbody tr .user-info{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.evidence-cont .body tbody tr .user-info img{
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 10px; 
+}
+
+.evidence-cont .body tbody tr .action .icon{
+    padding: 5px;
+    font-size: 30px;
+}
+
+.evidence-cont .body tbody tr .action .icon:hover{
+    color: var(--yel1);
+    background: var(--yel2);
+    opacity: .4;
+    cursor: pointer;
+}
+
+
+
+/* Add Evidence container */
+.addevidence-cont{
+    width: 80%;
+    height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: relative;
+    margin: 10px auto;
+
+}
+
+.addevidence-cont .head{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.addevidence-cont .head h3{
+    font-weight: 600;
+}
+
+.addevidence-cont .form-cont{
+    width:100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.addevidence-cont .form-cont .box{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.addevidence-cont .form-cont .box label{
+    color: #777;
+}
+
+
+.addevidence-cont .form-cont .box .media-cont{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.addevidence-cont .form-cont .box .media-cont .left .bx{
+    display:flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.addevidence-cont .form-cont .box .media-cont .left .bx .upload{
+    padding: 5px 20px;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    background: var(--dark1);
+    border: none;
+    cursor: pointer;
+}
+
+.addevidence-cont .form-cont .box .media-cont .right img{
+    width: 120px;
+    height: 120px;
+    background: var(--dark1);
+    border-radius: 50%;
+}
+
+.addevidence-cont .form-cont .box .input{
+    background: var(--dark1);
+    border: none;
+    outline: none;
+    color: #cccc;
+    padding: 10px 12px;
+    width: 100%;
+    resize: none;
+}
+
+
+.addevidence-cont .form-cont .box .select{
+    background: var(--dark1);
+    border: none;
+    outline: none;
+    color: #cccc;
+    padding: 10px 12px;
+    width: 100%;
+}
+
+
+.addevidence-cont .form-cont .box .note{
+    background: var(--dark1);
+    border: none;
+    outline: none;
+    color: #cccc;
+    padding: 10px 12px;
+    width: 100%;
+    resize: none;
+}
+
+
+.addevidence-cont .form-cont .action{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.addevidence-cont .form-cont .action .btn{
+    padding: 5px 10px;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+.addevidence-cont .form-cont .action .cancel{
+    background: var(--dark2);
+    border: 2px solid var(--yel2);
+}
+
+.addevidence-cont .form-cont .action .add{
+    background: var(--dark1);
+}
+
+

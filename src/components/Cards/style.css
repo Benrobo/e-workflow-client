@@ -1,0 +1,138 @@
+
+
+.user-box{
+    width: 300px;
+    height: 300px;
+    position: relative;
+    background: var(--dark1);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 50px;
+    margin-right: 10px;
+    top: 50px;
+}
+
+.user-box .top{
+    position: absolute;
+    top: -40px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.user-box .top img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--yel1);
+    background: var(--dark2);
+    outline: none;
+}
+
+.user-box .top .more-cont{
+    position: absolute;
+    top: 100px;
+    right: 30px;
+    width: 100px;
+    height: auto;
+    background: var(--dark2);
+    border-right: 5px;
+}
+
+.user-box .top .more-cont li{
+    padding: 10px;
+    opacity: .7;
+    cursor: pointer;
+}
+
+.user-box .top .more-cont li:hover{
+    opacity: 1;
+}
+
+.user-box .top .icon{
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    padding: 5px;
+    font-size: 30px;
+    cursor: pointer;
+}
+.user-box .top p{
+    margin: 0px;
+    padding: 0px;
+}
+.user-box .top small{
+    color: #777;
+}
+
+.user-box .top .officer-type{
+    width: 70%;
+    font-size: 12px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 10px auto;
+    border-radius: 5px;
+    border: 2px solid var(--yel1);
+}
+
+.user-box .top .officer-type .left{
+    width: 45%;
+    padding: 5px;
+    background: var(--yel1);
+    color: var(--dark1);
+    font-weight: 600;
+}
+
+.user-box .top .officer-type .right{
+    width: 100%;
+    padding: 5px;
+}
+
+.user-box .bottom{
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow-x:hidden ;
+
+}
+
+.user-box .bottom .box{
+    width: 50%;
+    height: 70px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.user-box .bottom .box:nth-child(1){
+    border-right: 1px solid #777;
+}
+
+
+
+.user-box .bottom .box.mid{
+    border-right: 1px solid #777;
+}
+
+.user-box .bottom .box h6{
+    font-weight: 600;
+}
+
+.user-box .bottom .box small{
+    margin-bottom: 10px;
+    color: #777;
+}
+
+
+
+

@@ -1,0 +1,47 @@
+@import url("./bootstrap.css");
+
+@font-face {
+    font-family: Poppins;
+    src: url("./Poppins-Regular.ttf");
+}
+
+:root{
+
+    --dark1:#141414 ;
+    --dark2:#1E1E1E ;
+    --dark3:#000;
+    --light1:#FFFFFF;
+    --light2:#E9E9E9;
+    --light3:#ccc;
+    --yel1:#F7CF47;
+    --yel2:rgb(247, 207, 71,.4);
+    --red1:#ff0000;
+    --red2:rgb(255, 0, 0,.4);
+    --green1: #02ff02;
+    --green2: rgb(2, 255, 2, .4);
+    --poppin: Poppins;
+}
+
+html{
+    scroll-behavior: smooth;
+    font-family:Poppins;
+}
+
+body{
+    background: var(--dark1);
+    position: relative;
+    left: 0px;
+    top: 0px;
+    color: var(--light2);
+    overflow-x: hidden;
+    font-family:Poppins;
+}
+
+li{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color: var(--light1);
+}

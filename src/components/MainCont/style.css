@@ -1,0 +1,202 @@
+
+
+.main-container{
+    width: 60%;
+    height: 100vh;
+    overflow-y: auto;
+    position: relative;
+    background: var(--dark2);
+    padding: 12px;
+}
+
+.main-container::-webkit-scrollbar{
+    width: 5px;
+    display: none;
+}
+
+.main-container::-webkit-scrollbar-thumb{
+    background: #777;
+    opacity: .2;
+    border-radius: 30px;
+}
+
+/* statistics cards */
+
+.cards-container{
+    width: 100%;
+    height: auto;
+    padding: 0px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.cards-container .card-box{
+    width: 200px;
+    height: auto;
+    padding: 20px;
+    background: var(--dark1);
+    margin-right:10px;
+    border-radius: 10px;
+}
+
+
+/* request cont */
+
+.request-cont{
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    position: relative;
+}
+
+.request-cont .head{
+    width: 100%;
+}
+
+.request-cont .head p{
+    margin: 0px;
+    padding: 0px;
+    color: var(--light1);
+}
+
+.request-cont .head small{
+    color: var(--light3);
+}
+
+.request-cont .body{
+    width: 100%;
+    height: auto;
+    position: relative;
+    max-height: 400px;
+    margin-bottom: 50px;
+    overflow-y: scroll;
+}
+
+
+.request-cont .body::-webkit-scrollbar{
+    width: 4px;
+}
+
+
+.request-cont .body::-webkit-scrollbar-thumb{
+    background: #777;
+    border-radius: 30px;
+}
+
+.request-cont .body table{
+    width: 100%;
+    position: relative;
+}
+
+.request-cont .body thead{
+    width: 100%;
+    height: auto;
+    background: var(--dark1);
+    font-weight: 300;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.request-cont .body thead th{
+    padding:10px;
+    font-weight: 300;
+}
+
+.request-cont .body tbody tr td{
+   padding: 10px;
+}
+
+.request-cont .body tbody tr .user-info{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.request-cont .body tbody tr .user-info img{
+    width: 60px;
+    border-radius: 50%;
+    margin-right: 10px; 
+}
+
+.request-cont .body tbody tr .action .icon{
+    padding: 5px;
+    font-size: 30px;
+}
+
+.request-cont .body tbody tr .action .icon:hover{
+    color: var(--yel1);
+    background: var(--yel2);
+    opacity: .4;
+    cursor: pointer;
+}
+
+
+
+
+/* Request Card Container */
+.request-card{
+    width: 350px;
+    height: auto;
+    padding: 20px;
+    background: var(--dark2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.request-card .user-info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.request-card .action{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.request-card .action .btn{
+    padding:6px 25px;
+}
+
+.request-card .action .accept{
+    color: var(--yel1);
+    background: var(--yel2);
+}
+
+
+.request-card .action .cancel{
+    color: var(--red1);
+    background: var(--red2);
+}
+
+
+/* Badge Component */
+
+.s-badge{
+    padding: 2px 12px;
+    border-radius: 30px;
+    color: var(--green1);
+    background-color:var(--green2);
+}
+
+.w-badge{
+    padding: 2px 12px;
+    border-radius: 30px;
+    color: var(--yel1);
+    background-color:var(--yel2);
+}
+
+.d-badge{
+    padding: 2px 30px;
+    border-radius: 30px;
+    color: var(--red1);
+    background-color:var(--red2);
+    /* font-size: 10px; */
+}

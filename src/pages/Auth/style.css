@@ -1,0 +1,82 @@
+.auth-cont{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: row;
+    font-family: var(--poppin);
+    flex-wrap: wrap;
+}
+
+.auth-cont .form-container{
+    width: 400px;
+    height: auto;
+    background: var(--dark2);
+    padding: 20px;
+    text-align: center;
+
+}
+
+.auth-cont .bx{
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    margin: 0px auto;
+}
+
+.auth-cont .br{
+    font-weight: 900;
+    color: var(--yel1);
+}
+.auth-cont .right img{
+    width: 20vmax;
+}
+
+.auth-cont .left{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+}
+
+.auth-cont .right{
+   height: 400px;
+}
+
+
+.auth-cont .form-container .user-form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+
+
+.auth-cont .form-container .user-form .input{
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: var(--dark1);
+    border: none;
+    outline: none;
+    color: var(--light1);
+}
+
+
+.success{
+    background: var(--dark1);
+    color: var(--yel1);
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height:50px;
+    font-weight: 300;
+}
