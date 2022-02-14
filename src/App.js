@@ -23,14 +23,14 @@ function App() {
           <Route path="/" element={<SignIn />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<UserSignUp />} />
-          <Route path="/admin/officer/signup" element={<AdminSignUp />} />
-          <Route path="/officer/dashboard/:id" element={<Dashboard />} />
-          <Route path="/officer/cases" element={<Cases />} />
-          <Route path="/officer/users" element={<Users />} />
-          <Route path="/officer/predict" element={<Predict />} />
-          <Route path="/officer/suspects" element={<Suspects />} />
-          <Route path="/officer/evidence" element={<Evidence />} />
-          <Route path="/officer/addEvidence" element={<AddEvidence />} />
+          <Route path="/admin/user/signup" element={<AdminSignUp />} />
+          <Route path="/user/dashboard/:id" element={<Dashboard />} />
+          <Route path="/user/cases" element={<Cases />} />
+          <Route path="/user/users" element={<Users />} />
+          <Route path="/user/predict" element={<Predict />} />
+          <Route path="/user/suspects" element={<Suspects />} />
+          <Route path="/user/evidence" element={<Evidence />} />
+          <Route path="/user/addEvidence" element={<AddEvidence />} />
         </Routes>
       </Router>
     </DataContextProvider>

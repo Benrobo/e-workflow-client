@@ -33,8 +33,8 @@
 
 .left-navbar-container .list-cont .link:hover{
     text-decoration: none;
-    color: var(--yel1);
-    background: var(--yel2);
+    color: var(--gr1);
+    background: var(--gr2);
 }
 
 .left-navbar-container .list-cont .link .icon{
@@ -42,8 +42,8 @@
 }
 
 .left-navbar-container .list-cont .link.active{
-    color: var(--yel1);
-    background: var(--yel2);
+    color: var(--gr1);
+    background: var(--gr2);
 }
 
 
