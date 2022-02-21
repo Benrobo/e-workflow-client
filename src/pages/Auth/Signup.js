@@ -6,11 +6,13 @@ import "./style.css";
 import img from "../../assets/img/police.png"
 import { Notification, Util } from "../../helpers/util";
 import apiRoutes from "../../api_routes";
+import Request from "../../helpers/Request";
 // instance
-const notif = new Notification(5000);
+const notif = new Notification(6000);
 const util = new Util();
 
 export function UserSignUp() {
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -59,27 +61,34 @@ export function UserSignUp() {
         userData["password"] = password;
         userData["type"] = userType;
 
+        if (userType === "staff") userData["token"] = token
+
         // return console.log(apiRoutes.userAuth);
         async function signinUser() {
             const url = apiRoutes.userAuth;
+            let options = {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(userData)
+            }
             try {
-                let req = await fetch(url, {
-                    method: "post",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(userData),
-                });
+                setLoading(true)
+                let req = await fetch(url, options);
                 let res = await req.json();
 
                 if (req.status !== 200 && res.error === true) {
+                    setLoading(false)
                     return notif.error(res.message);
                 }
-                notif.success("registeration in sucessful");
+                setLoading(false)
+                notif.success("registeration sucessful");
 
                 util.redirect(`/signin`, 1500);
                 return;
             } catch (e) {
+                setLoading(false)
                 notif.error(e.message);
             }
         }
@@ -173,7 +182,7 @@ export function UserSignUp() {
                                 }}
                             />
                             <SuccessBtn
-                                text="Create Account"
+                                text={loading ? "Creating your account..." : "Create Account"}
                                 onClick={handleClick}
                                 className={"btn-block success"}
                             />
@@ -190,6 +199,7 @@ export function UserSignUp() {
 
 
 export function AdminSignUp() {
+    const [loading, setLoading] = useState("");
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -231,24 +241,29 @@ export function AdminSignUp() {
         // return console.log(apiRoutes.userAuth);
         async function signinUser() {
             const url = apiRoutes.adminAuth;
+            const options = {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            }
             try {
-                let req = await fetch(url, {
-                    method: "post",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(userData),
-                });
+                setLoading(true)
+                let req = await fetch(url, options);
                 let res = await req.json();
 
                 if (req.status !== 200 && res.error === true) {
+                    setLoading(false)
                     return notif.error(res.message);
                 }
-                notif.success("registeration in sucessful");
+                setLoading(false)
+                notif.success("registeration sucessful");
 
                 util.redirect(`/signin`, 1500);
                 return;
             } catch (e) {
+                setLoading(false)
                 notif.error(e.message);
             }
         }
@@ -310,7 +325,7 @@ export function AdminSignUp() {
                                 }}
                             />
                             <SuccessBtn
-                                text="Create Account"
+                                text={loading ? "Creating your account..." : "Create Account"}
                                 onClick={handleClick}
                                 className={"btn-block success"}
                             />

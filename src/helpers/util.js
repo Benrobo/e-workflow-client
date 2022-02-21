@@ -7,7 +7,7 @@ const notyf = new Notyf();
 
 export class Notification {
   constructor(duration) {
-    this.duration = duration === undefined ? 3000 : duration;
+    this.duration = duration === undefined ? 5000 : duration;
     this.position = {
       x: "right",
       y: "top",
