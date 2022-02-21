@@ -10,32 +10,13 @@ import apiRoutes from "../../api_routes";
 const notif = new Notification(5000);
 const util = new Util();
 
-
-const officerRanks = [
-    "Inspector General",
-    "Deputy Inspector-General of Police",
-    "Assistant Inspector-General of Police",
-    "Commissioner of Police",
-    "Deputy Commissioner of Police",
-    "Assistant Commissioner of Police",
-    "Chief Superintendent of Police",
-    "Superintendent of Police",
-    "Deputy Superintendent of Police",
-    "Assistant Superintendent of Police",
-    "Inspector of Police",
-    "Sergeant Major",
-    "Sergeant",
-    "Corporal",
-    "Lance",
-    "Constable"
-]
-
 export function UserSignUp() {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [phonenumber, setPhonenumber] = useState("");
-    const [officerranks, setOfficerRanks] = useState("")
+    const [token, setToken] = useState("");
+    const [userType, setUserType] = useState("student")
 
     function handleClick() {
         // validate input
@@ -43,8 +24,12 @@ export function UserSignUp() {
             setPhonenumber("");
             return notif.error("phonenumber is required");
         }
-        if (officerranks === "") {
-            setOfficerRanks("");
+        if (token === "" && userType === "staff") {
+            setToken("");
+            return notif.error("token is required");
+        }
+        if (userType === "") {
+            setUserType("");
             return notif.error("officer rank is required");
         }
         if (password === "") {
@@ -72,7 +57,7 @@ export function UserSignUp() {
         userData["phoneNumber"] = phonenumber;
         userData["email"] = email;
         userData["password"] = password;
-        userData["rank"] = officerranks;
+        userData["type"] = userType;
 
         // return console.log(apiRoutes.userAuth);
         async function signinUser() {
@@ -104,6 +89,7 @@ export function UserSignUp() {
     return (
         <>
             <div className="auth-cont">
+                <Head />
                 <div className="left bx">
                     <div className="form-container mt-2">
                         <div className="head mb-4">
@@ -132,12 +118,38 @@ export function UserSignUp() {
                                     setEmail(e.target.value);
                                 }}
                             />
-                            <select name="" id="" className="input" onChange={(e) => setOfficerRanks(e.target.value)}>
-                                <option value="">officer ranks</option>
-                                {officerRanks.map((_, i) => (
-                                    <option value={_} key={i}>{_}</option>
-                                ))}
-                            </select>
+                            <br />
+                            <div className="user-type-box">
+                                <label htmlFor="">
+                                    <small>are you staff ?</small>
+                                    <input type="checkbox" onChange={(e) => {
+                                        if (e.target.checked) {
+                                            return setUserType("staff")
+                                        }
+                                        setUserType("student")
+                                    }} className="ml-2" />
+                                    <br />
+                                </label>
+                                {userType === "staff" &&
+                                    <>
+                                        <label htmlFor="">
+                                            <small>Enter token code sent to your mail</small>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            placeholder="Code"
+                                            className="input"
+                                            defaultValue={token}
+                                            maxLength={60}
+                                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                            required
+                                            onChange={(e) => {
+                                                setToken(e.target.value);
+                                            }}
+                                        />
+                                    </>
+                                }
+                            </div>
                             <input
                                 type="number"
                                 placeholder="Phone Number"
@@ -171,12 +183,6 @@ export function UserSignUp() {
                         </div>
                     </div>
                 </div>
-                <div className="right bx">
-                    <h3>To <span className="br">Protect</span> And <span className="br">Serve</span></h3>
-                    <span>Crime Tracker System</span>
-                    <br />
-                    <img src={img} alt="" />
-                </div>
             </div>
         </>
     );
@@ -188,17 +194,12 @@ export function AdminSignUp() {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [phonenumber, setPhonenumber] = useState("");
-    const [officerranks, setOfficerRanks] = useState("")
 
     function handleClick() {
         // validate input
         if (phonenumber === "") {
             setPhonenumber("");
             return notif.error("phonenumber is required");
-        }
-        if (officerranks === "") {
-            setOfficerRanks("");
-            return notif.error("officer rank is required");
         }
         if (password === "") {
             setPassword("");
@@ -225,7 +226,7 @@ export function AdminSignUp() {
         userData["phoneNumber"] = phonenumber;
         userData["email"] = email;
         userData["password"] = password;
-        userData["rank"] = officerranks;
+        userData["type"] = "admin";
 
         // return console.log(apiRoutes.userAuth);
         async function signinUser() {
@@ -252,24 +253,24 @@ export function AdminSignUp() {
             }
         }
         signinUser();
-        // signinUser();
     }
 
     return (
         <>
             <div className="auth-cont">
+                <Head />
                 <div className="left bx">
                     <div className="form-container mt-2">
                         <div className="head mb-4">
-                            <h3>Admin SignUp</h3>
+                            <h3>Admin Signup</h3>
                         </div>
-                        <br />
                         <div className="user-form form">
                             <input
                                 type="text"
                                 placeholder="Full Name"
+                                defaultValue={name}
                                 maxLength="20"
-                                className="input mb-2"
+                                className="input"
                                 onChange={(e) => {
                                     setName(e.target.value);
                                 }}
@@ -298,18 +299,12 @@ export function AdminSignUp() {
                                     setPhonenumber(e.target.value);
                                 }}
                             />
-                            <select name="" id="" className="input" onChange={(e) => setOfficerRanks(e.target.value)}>
-                                <option value="">officer ranks</option>
-                                {officerRanks.map((_, i) => (
-                                    <option value={_} key={i}>{_}</option>
-                                ))}
-                            </select>
                             <input
                                 type="password"
                                 placeholder="Password"
+                                defaultValue={password}
                                 maxLength="20"
                                 className="input mb-2"
-                                defaultValue={password}
                                 onChange={(e) => {
                                     setPassword(e.target.value);
                                 }}
@@ -325,13 +320,19 @@ export function AdminSignUp() {
                         </div>
                     </div>
                 </div>
-                <div className="right bx">
-                    <h3>To <span className="br">Protect</span> And <span className="br">Serve</span></h3>
-                    <span>Crime Tracker System</span>
-                    <br />
-                    <img src={img} alt="" />
-                </div>
             </div>
         </>
     );
+}
+
+
+function Head() {
+    return (
+        <div>
+            <h3>
+                <span className="grn-clr">E-workflow</span> System
+            </h3>
+            <br />
+        </div>
+    )
 }
