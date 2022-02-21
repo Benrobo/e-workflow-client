@@ -10,6 +10,7 @@ const notif = new Notification(5000);
 const util = new Util();
 
 export default function Signin() {
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -32,15 +33,19 @@ export default function Signin() {
 
         async function signinUser() {
             const url = apiRoutes.logIn;
+            const options = {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            }
             try {
-                let req = await fetch(url, {
-                    method: "post",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(userData),
-                });
+                setLoading(true)
+                let req = await fetch(url, options);
                 let res = await req.json();
+
+                setLoading(false)
 
                 if (req.status !== 200 && res.error === true) {
                     return notif.error(res.message);
@@ -58,15 +63,15 @@ export default function Signin() {
                 const saveuserInfo = {
                     id,
                     role,
-                    rank,
                     status,
                     refreshToken
                 };
                 // save data to localstorage
                 util.saveLocalstorage(saveuserInfo);
-                util.redirect(`/officer/dashboard/${id}`, 1500);
+                util.redirect(`/user/dashboard/${id}`, 1500);
                 return;
             } catch (e) {
+                setLoading(false)
                 notif.error(e.message);
             }
         }
@@ -76,6 +81,7 @@ export default function Signin() {
     return (
         <>
             <div className="auth-cont">
+                <Head />
                 <div className="left bx">
                     <div className="form-container mt-2">
                         <div className="head mb-4">
@@ -105,23 +111,30 @@ export default function Signin() {
                                 }}
                             />
                             <SuccessBtn
-                                text="Sign In"
+                                text={loading ? "Signin you In" : "Sign In"}
                                 onClick={handleClick}
                                 className={"btn-block success"}
                             />
                             <small>
-                                dont have an account? <Link to="/signup">Sign In</Link>
+                                dont have an account? <Link to="/signup">Sign up</Link>
                             </small>
                         </div>
                     </div>
                 </div>
-                <div className="right bx">
-                    <h3>To <span className="br">Protect</span> And <span className="br">Serve</span></h3>
-                    <span>Crime Tracker System</span>
-                    <br />
-                    <img src={img} alt="" />
-                </div>
+
             </div>
         </>
     );
+}
+
+
+function Head() {
+    return (
+        <div>
+            <h3>
+                <span className="grn-clr">E-workflow</span> System
+            </h3>
+            <br />
+        </div>
+    )
 }
