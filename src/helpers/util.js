@@ -200,6 +200,16 @@ export class Util {
     // the decoded looks like {id, role, refreshToken, accessTokenf}
     return decoded;
   }
+
+  generateToken() {
+    let num = "0123456789".split("")
+    let randNum = ""
+    for (let i = 0; i < 6; i++) {
+      const rand = Math.floor(Math.random() * num.length);
+      randNum += num[rand]
+    }
+    return randNum;
+  }
 }
 
 class Error {

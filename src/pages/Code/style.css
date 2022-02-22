@@ -7,7 +7,7 @@
     flex-direction: row;
     position: relative;
     margin: 10px auto;
-
+    flex-wrap: wrap;
 }
 
 .code-cont .head{
@@ -64,6 +64,10 @@
     width: 100%;
     position: relative;
     top: 20px;
+}
+.code-cont .right .generate-cont .actions .inactive{
+    opacity: .4;
+    pointer-events: none;
 }
 .code-cont .right .generate-cont .actions .save{
     background: var(--dark1);
