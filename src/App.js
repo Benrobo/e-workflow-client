@@ -5,32 +5,24 @@ import SignIn from './pages/Auth/Signin';
 import { UserSignUp, AdminSignUp } from './pages/Auth/Signup';
 import Dashboard from './pages/Dashboard/Dashboard';
 import './global.css';
-import Cases from './pages/Cases/Cases';
-import Users from './pages/Users/Users';
-import Predict from './pages/Predict/Predict';
-import Suspects from './pages/Suspects/Suspects';
-import Evidence from './pages/Evidence/Evidence';
-import AddEvidence from './pages/Evidence/AddEvidence';
-
-// context api
 import { DataContextProvider } from './context/DataContext';
+import { Util } from "./helpers/util"
+import Code from './pages/Code/Code';
+
+let util = new Util()
 
 function App() {
+
   return (
     <DataContextProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<UserSignUp />} />
-          <Route path="/admin/user/signup" element={<AdminSignUp />} />
-          <Route path="/user/dashboard/:id" element={<Dashboard />} />
-          <Route path="/user/cases" element={<Cases />} />
-          <Route path="/user/users" element={<Users />} />
-          <Route path="/user/predict" element={<Predict />} />
-          <Route path="/user/suspects" element={<Suspects />} />
-          <Route path="/user/evidence" element={<Evidence />} />
-          <Route path="/user/addEvidence" element={<AddEvidence />} />
+          <Route path="/" element={util.isLoggedIn() ? <Dashboard /> : <SignIn />} />
+          <Route path="/signin" element={util.isLoggedIn() ? <Dashboard /> : <SignIn />} />
+          <Route path="/signup" element={util.isLoggedIn() ? <Dashboard /> : <UserSignUp />} />
+          <Route path="/admin/user/signup" element={util.isLoggedIn() ? <Dashboard /> : <AdminSignUp />} />
+          <Route path="/user/dashboard/:id" element={util.isLoggedIn() ? <Dashboard /> : <SignIn />} />
+          <Route path="/user/code/" element={util.isLoggedIn() ? <Code /> : <SignIn />} />
         </Routes>
       </Router>
     </DataContextProvider>

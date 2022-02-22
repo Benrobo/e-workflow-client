@@ -1,7 +1,7 @@
 
 
 .main-container{
-    width: 60%;
+    width: 80%;
     height: 100vh;
     overflow-y: auto;
     position: relative;
@@ -27,18 +27,19 @@
     height: auto;
     padding: 0px;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
 .cards-container .card-box{
-    width: 200px;
+    width: 300px;
     height: auto;
     padding: 20px;
     background: var(--dark1);
     margin-right:10px;
     border-radius: 10px;
+    border-left: 3px solid var(--gr1);
 }
 
 
@@ -106,6 +107,7 @@
 
 .request-cont .body tbody tr td{
    padding: 10px;
+   border-radius: 0px;
 }
 
 .request-cont .body tbody tr .user-info{
@@ -123,15 +125,9 @@
 .request-cont .body tbody tr .action .icon{
     padding: 5px;
     font-size: 30px;
+    color: #ccc;
+    background: rgba(0,0,0,.4);
 }
-
-.request-cont .body tbody tr .action .icon:hover{
-    color: var(--yel1);
-    background: var(--yel2);
-    opacity: .4;
-    cursor: pointer;
-}
-
 
 
 
@@ -174,29 +170,4 @@
 .request-card .action .cancel{
     color: var(--red1);
     background: var(--red2);
-}
-
-
-/* Badge Component */
-
-.s-badge{
-    padding: 2px 12px;
-    border-radius: 30px;
-    color: var(--green1);
-    background-color:var(--green2);
-}
-
-.w-badge{
-    padding: 2px 12px;
-    border-radius: 30px;
-    color: var(--yel1);
-    background-color:var(--yel2);
-}
-
-.d-badge{
-    padding: 2px 30px;
-    border-radius: 30px;
-    color: var(--red1);
-    background-color:var(--red2);
-    /* font-size: 10px; */
 }

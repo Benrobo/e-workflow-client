@@ -11,6 +11,20 @@
     padding: 10px;
     width: 100%;
     font-size: 15px;
+    margin-top: 20px;
+    
+}
+
+.left-navbar-container .head h3 .brd{
+    background:var(--gr1);
+    padding: 5px;
+    border: none;
+    height: 10px;
+}
+.left-navbar-container .head .txt{
+    margin-left: 10px;
+    color: var(--gr1);
+    font-weight: 600;
 }
 
 
@@ -21,7 +35,21 @@
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
+    max-height: 100vh;
+    overflow-y: auto;
+
 }
+
+.left-navbar-container .list-cont::-webkit-scrollbar{
+    width: 3px;
+}
+
+.left-navbar-container .list-cont::-webkit-scrollbar-thumb{
+    border-radius: 30px;
+    background: var(--gr2);
+    opacity: .5;
+}
+
 
 .left-navbar-container .list-cont .link{
     padding: 10px 12px;

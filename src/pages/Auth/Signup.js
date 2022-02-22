@@ -6,7 +6,6 @@ import "./style.css";
 import img from "../../assets/img/police.png"
 import { Notification, Util } from "../../helpers/util";
 import apiRoutes from "../../api_routes";
-import Request from "../../helpers/Request";
 // instance
 const notif = new Notification(6000);
 const util = new Util();

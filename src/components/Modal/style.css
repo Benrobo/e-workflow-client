@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    position: absolute;
+    position: fixed;
     left: 0px;
     top: 0px;
     z-index: 1000;

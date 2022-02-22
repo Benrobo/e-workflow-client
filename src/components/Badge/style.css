@@ -1,0 +1,27 @@
+.status{
+    padding: 5px 15px;
+    padding-bottom: 2px;
+    font-size: 13px;
+    border-radius: 40px;
+}
+
+.status span{
+    padding-bottom: 5px;
+}
+
+
+.status.pending{
+    background: var(--yel2);
+    color: var(--yel1);
+}
+
+.status.rejected{
+    background: var(--red2);
+    color: var(--red1);
+}
+
+
+.status.approved{
+    background: var(--gr2);
+    color: var(--gr1);
+}

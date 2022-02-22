@@ -5,6 +5,8 @@ import "notyf/notyf.min.css";
 
 const notyf = new Notyf();
 
+const storageName = "e-workflow"
+
 export class Notification {
   constructor(duration) {
     this.duration = duration === undefined ? 5000 : duration;
@@ -43,7 +45,7 @@ export class Util {
   }
 
   isLoggedIn() {
-    let tokens = JSON.parse(localStorage.getItem("babcock-auth"));
+    let tokens = JSON.parse(localStorage.getItem(storageName));
 
     if (!tokens || tokens.refreshToken === "" || tokens.accessToken === "") {
       return false;
@@ -162,7 +164,7 @@ export class Util {
   }
 
   saveLocalstorage(data) {
-    localStorage.setItem("crime-tracker", JSON.stringify(data));
+    localStorage.setItem(storageName, JSON.stringify(data));
   }
 
   decodeJwt(token) {
@@ -180,15 +182,15 @@ export class Util {
   }
 
   getLocalstorageData() {
-    if (localStorage.getItem("babcock-auth") === null) {
-      return this.Error("babcock-auth notfound in localstorage..");
+    if (localStorage.getItem(storageName) === null) {
+      return this.Error(`${storageName} notfound in localstorage..`);
     }
 
     // we dont just wanna send the, data from localstorage, instead we wanna send the user
     // data which is valid with the one in our database
 
     let decoded = this.decodeJwt(
-      JSON.parse(localStorage.getItem("babcock-auth")).refreshToken
+      JSON.parse(localStorage.getItem(storageName)).refreshToken
     );
 
     if (decoded.msg || decoded.error) {

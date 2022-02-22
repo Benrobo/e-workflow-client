@@ -1,0 +1,77 @@
+.code-cont{
+    width: 80%;
+    height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content:space-between;
+    flex-direction: row;
+    position: relative;
+    margin: 10px auto;
+
+}
+
+.code-cont .head{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.code-cont .left table tbody tr td{
+    color: var(--light3);
+}
+
+.code-cont .left table tbody .icon{
+    padding: 5px;
+    font-size: 25px;
+    color: var(--red1);
+    background: var(--red2);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.code-cont .right .generate-cont{
+    width: auto;
+    padding: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width:300px;
+}
+
+
+.code-cont .right .generate-cont label{
+    color: var(--light3);
+    opacity: .6;
+}
+
+.code-cont .right .generate-cont .input{
+    background: var(--dark1);
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+}
+
+.code-cont .right .generate-cont .actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    top: 20px;
+}
+.code-cont .right .generate-cont .actions .save{
+    background: var(--dark1);
+    color: var(--gr1);
+}
+
+.code-cont .right .generate-cont .actions .generate{
+    background: var(--gr2);
+    color: var(--gr1);
+}
+

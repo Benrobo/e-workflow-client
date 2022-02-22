@@ -2,11 +2,13 @@ import React, { useState, useContext } from 'react'
 import MainCont from '../../components/MainCont/MainCont'
 import Profile from '../../components/ProfileBar/Profile'
 import LeftNavbar from '../../components/LeftNavbar'
-
+import Badge from '../../components/Badge/badge'
 import "./style.css"
 import Layout from '../../components/Layout/Layout'
 import { FiMoreVertical } from 'react-icons/fi'
 import Modal from '../../components/Modal/Modal'
+import TopNavbar from '../../components/TopNavbar/Top'
+import { Link } from 'react-router-dom'
 
 function Dashboard() {
 
@@ -16,9 +18,7 @@ function Dashboard() {
         <Layout>
             <LeftNavbar active="dashboard" />
             <MainCont>
-                <div className="head">
-                    <h3>CTC DASHBOARD</h3>
-                </div>
+                <TopNavbar activeBar="Dashboard" />
                 <br />
                 <StatCards />
                 <br />
@@ -27,7 +27,6 @@ function Dashboard() {
                     <RequestCard setVisibility={setVisibility} />
                 </Modal>}
             </MainCont>
-            <Profile />
         </Layout>
     )
 }
@@ -39,15 +38,15 @@ function StatCards() {
     return (
         <div className="cards-container">
             <div className="card-box">
-                <p>Total Cases</p>
+                <p>Total Students</p>
                 <h4>56</h4>
             </div>
             <div className="card-box">
-                <p>Total Suspects</p>
+                <p>Total Staffs</p>
                 <h4>26</h4>
             </div>
             <div className="card-box">
-                <p>Total Users</p>
+                <p>Total Documents</p>
                 <h4>36</h4>
             </div>
         </div>
@@ -59,21 +58,23 @@ function RequestContainer({ setVisibility }) {
     return (
         <div className="request-cont mt-5">
             <div className="head">
-                <p>Officers Request</p>
+                <p>Staffs Request</p>
                 <small>registeration</small>
             </div>
             <br />
             <div className="body">
                 <table className="tbl-body table-hover table-striped">
                     <thead>
-                        <th>Full Name</th>
-                        <th>Contacts</th>
-                        <th>Status</th>
-                        <th>Type</th>
-                        <th>Action</th>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Contacts</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        {Array.from("123vfvv").map((_, i) => {
+                        {Array.from("1fvv").splice(0, 2).map((_, i) => {
                             return (
                                 <tr className="mt-3" key={i}>
                                     <td className="user-info">
@@ -87,7 +88,7 @@ function RequestContainer({ setVisibility }) {
                                         <small>Senior Officer</small>
                                     </td>
                                     <td className="status">
-                                        <Badge type="warning" text="Pending" />
+                                        <Badge text={"pending"} color="p" />
                                     </td>
                                     <td className="action">
                                         <FiMoreVertical className="icon" onClick={() => {
@@ -99,6 +100,9 @@ function RequestContainer({ setVisibility }) {
                         })}
                     </tbody>
                 </table>
+                <br />
+                <br />
+                <Link className="btn btn-info" to={"/user/request"}>See More</Link>
             </div>
         </div>
     )
@@ -125,14 +129,5 @@ function RequestCard({ setVisibility }) {
                 }}>Cancel</button>
             </div>
         </div>
-    )
-}
-
-
-function Badge({ text, type }) {
-    return (
-        <span className={type === "warning" ? "w-badge" : type === "success" ? "s-badge" : type === "danger" ? "d-badge" : ""}>
-            <small>{text}</small>
-        </span>
     )
 }
