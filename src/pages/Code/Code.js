@@ -14,6 +14,9 @@ const util = new Util()
 const notfy = new Notification()
 
 function Code() {
+    if(localStorage.getItem("e-workflow") === null){
+        window.location = "/signup"
+    }
     return (
         <Layout>
             <LeftNavbar active="code" />
@@ -27,7 +30,6 @@ function Code() {
 
 export default Code
 
-const { refreshToken, id, role } = JSON.parse(localStorage.getItem("e-workflow"))
 
 function GenerateCode() {
     const [token, setToken] = useState("")
@@ -36,6 +38,10 @@ function GenerateCode() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("")
     const [result, setResult] = useState([])
+
+    const { refreshToken, id, role } = JSON.parse(localStorage.getItem("e-workflow"))
+
+
 
     useEffect(() => {
         const options = {
