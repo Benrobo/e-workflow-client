@@ -33,7 +33,7 @@ function LeftNavbar({ active }) {
                     <RiSendToBack className="icon" />
                     Code / Token
                 </Link>
-                <Link to="/user/sendMail" className={active === "evidence" ? "link active" : "link"}>
+                <Link to="/user/sendMail" className={active === "sendMail" ? "link active" : "link"}>
                     <FiSend className="icon" />
                     Send Mail
                 </Link>

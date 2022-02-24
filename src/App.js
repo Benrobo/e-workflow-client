@@ -8,6 +8,7 @@ import './global.css';
 import { DataContextProvider } from './context/DataContext';
 import { Util } from "./helpers/util"
 import Code from './pages/Code/Code';
+import SendMail from './pages/SendMail/SendMail';
 
 let util = new Util()
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/admin/user/signup" element={util.isLoggedIn() ? <Dashboard /> : <AdminSignUp />} />
           <Route path="/user/dashboard/:id" element={util.isLoggedIn() ? <Dashboard /> : <SignIn />} />
           <Route path="/user/code/" element={util.isLoggedIn() ? <Code /> : <SignIn />} />
+          <Route path="/user/sendMail/" element={util.isLoggedIn() ? <SendMail /> : <SignIn />} />
         </Routes>
       </Router>
     </DataContextProvider>

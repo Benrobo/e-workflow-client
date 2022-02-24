@@ -1,0 +1,55 @@
+.sendmail-cont{
+    width: 70%;
+    height: auto;
+    padding: 0px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin: 10px auto;
+}
+
+.sendmail-cont .bx{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 4px;
+    width: 100%;
+}
+
+.sendmail-cont .bx label{
+    color: var(--light3);
+}
+
+.sendmail-cont .bx .input{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background: var(--dark1);
+    color: var(--light1);
+    resize: none;
+}
+.sendmail-cont .bx .message{
+    font-size: 12px;
+}
+.sendmail-cont .bx .send-btn{
+    padding: 12px;
+    border: none;
+    outline: none;
+    background: var(--gr2);
+    border-radius: 5px;
+    color: var(--gr1);
+    font-size:17px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: .2s ease;
+    transform: scale(1);
+}
+
+.sendmail-cont .bx .send-btn:hover{
+    transition: .2s ease;
+    transform: scale(.99);
+}

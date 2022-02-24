@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import apiRoutes from "../api_routes";
 
 import { Util } from "../helpers/util";
 
@@ -15,6 +16,7 @@ export function DataContextProvider(props) {
 
     // localstorageData
     const locData = util.getLocalstorageData();
+    const localData = JSON.parse(localStorage.getItem("e-workflow"))
 
     //   togle profile edit container
     const [showeditprofile, setShowEditProfile] = useState(false)
@@ -25,8 +27,42 @@ export function DataContextProvider(props) {
         localStorage.clear();
         util.redirect("/signin", 100);
     }
+
+    // handle sending of mail
+    async function sendMail(payload) {
+        const data = {}
+        // verify
+        if (Object.entries(payload).length === 0) {
+            data["error"] = true;
+            data["message"] = "sending of mail requires a valid payload but got none"
+            return data;
+        }
+
+        try {
+            let url = apiRoutes.sendMail;
+            const data = {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${localData.refreshToken}`
+                },
+                body: JSON.stringify(payload)
+            }
+
+            let req = await fetch(url, data);
+            let res = await req.json();
+
+            return res;
+
+        } catch (err) {
+            data["error"] = true;
+            data["message"] = err.message;
+            return data;
+        }
+    }
+
     return (
-        <DataContext.Provider value={{ logout, locData, showeditprofile, setShowEditProfile }}>
+        <DataContext.Provider value={{ logout, locData, showeditprofile, setShowEditProfile, sendMail }}>
             {props.children}
         </DataContext.Provider>
     );
