@@ -210,6 +210,17 @@ export class Util {
     }
     return randNum;
   }
+
+  genId(len = 5) {
+    let id = "";
+    let char = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
+    for (let i = 0; i < len; i++) {
+      let rand = Math.floor(Math.random() * char.length);
+      id += char[rand]
+    }
+
+    return id;
+  }
 }
 
 class Error {

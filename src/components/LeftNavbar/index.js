@@ -41,7 +41,7 @@ function LeftNavbar({ active }) {
                     <IoMdDocument className="icon" />
                     Submissions
                 </Link>
-                <Link to="/user/collab" className={active === "cases" ? "link active" : "link"}>
+                <Link to="/user/collab" className={active === "collab" ? "link active" : "link"}>
                     <FaVideo className="icon" />
                     Collab
                 </Link>

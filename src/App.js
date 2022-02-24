@@ -9,6 +9,8 @@ import { DataContextProvider } from './context/DataContext';
 import { Util } from "./helpers/util"
 import Code from './pages/Code/Code';
 import SendMail from './pages/SendMail/SendMail';
+import Collab from './pages/Colab/Collab';
+import Meeting from './pages/Meeting/meeting';
 
 let util = new Util()
 
@@ -25,6 +27,8 @@ function App() {
           <Route path="/user/dashboard/:id" element={util.isLoggedIn() ? <Dashboard /> : <SignIn />} />
           <Route path="/user/code/" element={util.isLoggedIn() ? <Code /> : <SignIn />} />
           <Route path="/user/sendMail/" element={util.isLoggedIn() ? <SendMail /> : <SignIn />} />
+          <Route path="/user/collab/" element={util.isLoggedIn() ? <Collab /> : <SignIn />} />
+          <Route path="/user/meeting/:id" element={util.isLoggedIn() ? <Meeting /> : <SignIn />} />
         </Routes>
       </Router>
     </DataContextProvider>

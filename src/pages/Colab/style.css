@@ -1,126 +1,52 @@
-.predict-cont{
-    width: 80%;
-    height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: column;
-    position: relative;
-    margin: 10px auto;
-
-}
-
-.predict-cont .head{
-    width: 100%;
-    height: auto;
-    padding: 10px;
-    font-size: 20px;
-}
-
-.predict-cont .head h3{
-    font-weight: 600;
-}
-
-.predict-cont .form-cont{
+.collab-head{
     width:100%;
-    height: auto;
+    height:auto;
+}
+
+.collab-head .collab{
+    padding:10px 25px;
+    background: var(--gr1);
+    color: var(--dark1);
+    font-weight: 600;
+    font-size: 15px;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 }
 
-.predict-cont .form-cont .box{
-    width: 100%;
-    height: auto;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-direction: column;
-    margin-bottom: 10px;
+.collab-head .collab .icon{
+    font-size: 30px;
+    padding: 4px;
 }
-
-.predict-cont .form-cont .box label{
-    color: #777;
-}
-
-
-.predict-cont .form-cont .box .media-cont{
+.meeting-info{
     width: 100%;
     height: auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-}
-
-.predict-cont .form-cont .box .media-cont .left .bx{
-    display:flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
     flex-direction: column;
-    margin-bottom: 10px;
+    text-align: center;
 }
 
-.predict-cont .form-cont .box .media-cont .left .bx .upload{
-    padding: 5px 20px;
-    outline: none;
-    color: #fff;
-    border-radius: 5px;
-    background: var(--dark1);
-    border: none;
-    cursor: pointer;
+.meeting-info .icon{
+    font-size:60px;
+    padding: 0px;
+    color: var(--gr1);
+    font-weight: 700;
+}
+.meeting-info h2{
+    font-size: 20px;
+}
+.meeting-info .link{
+    color: var(--gr1);
 }
 
-.predict-cont .form-cont .box .media-cont .right img{
-    width: 120px;
-    height: 120px;
-    background: var(--dark1);
-    border-radius: 50%;
-}
-
-.predict-cont .form-cont .box .input{
+.meeting-info .btn{
+    padding: 10px 25px;
     background: var(--dark1);
     border: none;
     outline: none;
-    color: #cccc;
-    padding: 10px 12px;
-    width: 100%;
-    resize: none;
-}
-
-
-.predict-cont .form-cont .box .select{
-    background: var(--dark1);
-    border: none;
-    outline: none;
-    color: #cccc;
-    padding: 10px 12px;
-    width: 100%;
-}
-
-
-.predict-cont .form-cont .action{
-    width: 100%;
-    height: auto;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    flex-direction: row;
-}
-
-.predict-cont .form-cont .action .btn{
-    padding: 5px 10px;
-    outline: none;
-    color: #fff;
-    border-radius: 5px;
-    margin-left: 20px;
-}
-
-.predict-cont .form-cont .action .cancel{
-    background: var(--dark2);
-    border: 2px solid var(--yel2);
-}
-
-.predict-cont .form-cont .action .add{
-    background: var(--dark1);
+    margin-bottom: 20px;
+    color: var(--gr1);
+    border: 1px solid var(--gr2);
 }

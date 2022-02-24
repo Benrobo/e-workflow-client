@@ -1,113 +1,76 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
+import { Link } from "react-router-dom"
 import MainCont from '../../components/MainCont/MainCont'
-import Profile from '../../components/ProfileBar/Profile'
 import LeftNavbar from '../../components/LeftNavbar'
 import { Util, Notification } from "../../helpers/util"
 import "./style.css"
 import Layout from '../../components/Layout/Layout'
+import TopNavbar from '../../components/TopNavbar/Top'
+import { FiVideo } from 'react-icons/fi'
+import { FaCopy } from 'react-icons/fa'
 
 let util = new Util()
 let notif = new Notification()
 
-function Predict() {
+function Collab() {
+
+    const [meetingId, setMeetingId] = useState("")
+    const [startMeeting, setStartMeeting] = useState(false)
+
+    function createMeeting() {
+        let formated = `${util.genId(4)}-${util.genId(4)}-${util.genId(4)}`
+
+        setMeetingId(formated)
+
+        setStartMeeting(true)
+    }
+
     return (
         <Layout>
-            <LeftNavbar active="predict" />
+            <LeftNavbar active="collab" />
             <MainCont>
+                <TopNavbar activeBar="Collab" />
                 <hr />
-                <AddCases />
+                <div className="collab-head">
+                    <p>Collaborate faster with your teams.</p>
+                    <button className="btn collab" onClick={() => createMeeting()}>
+                        <FiVideo className="icon" /> Create Meeting
+                    </button>
+                </div>
+                <hr />
+                {startMeeting && <MeetingInfo id={meetingId} />}
+
             </MainCont>
-            <Profile />
         </Layout>
     )
 }
 
-export default Predict
+export default Collab
 
 
-function AddCases() {
+function MeetingInfo({ id }) {
 
-    const [imageData, setImageData] = useState("")
-    const file = useRef()
-
-    function handlePreview() {
-        file.current.click()
-
-        file.current.addEventListener("change", (e) => {
-            let fileData = file.current.files[0]
-            let type = fileData.type.split("/")[1];
-            let validType = ["png", "PNG", "JPEG", "JPG", "jpg", "jpeg"]
-
-            if (!validType.includes(type)) {
-                return notif.error("file isnt a valid type")
-            }
-            let reader = new FileReader()
-            reader.readAsDataURL(fileData)
-            reader.onload = () => {
-                setImageData(reader.result)
-            }
-
-            reader.onerror = function () {
-                return notif.error(reader.error);
-            };
-
-        })
-    }
+    let link = `/user/meeting/${id}`
 
     return (
-        <div className="predict-cont">
-            <div className="head">
-                <h3>Make Prediction</h3>
-            </div>
+        <div className="meeting-info">
+            <FaCopy className='icon' />
             <br />
-            <div className="form-cont">
-                <div className="box">
-                    <label htmlFor="">Case ID</label>
-                    <select className="select">
-                        <option value=""> --- case id ---</option>
-                    </select>
-                </div>
-                <div className="box">
-                    <label htmlFor="">Case Name</label>
-                    <input type="text" disabled placeholder="Murder" defaultValue={"Murder"} className="input" />
-                </div>
-                <div className="box">
-                    <label htmlFor="">Suspect Name</label>
-                    <input type="text" placeholder="Suspect Name" defaultValue={"Husband Wife"} disabled className="input" />
-                </div>
-                <div className="box">
-                    <div className="media-cont">
-                        <div className="left">
-                            <div className="bx">
-                                <label htmlFor="">Suspect Image</label>
-                                <button className="upload" onClick={() => {
-                                    handlePreview()
-                                }}>Upload</button>
-                                <input type="file" accept="image/*" hidden className="file" ref={file} />
-                            </div>
-                            <div className="bx">
-                                <label htmlFor="">Rank</label>
-                                <select className="select">
-                                    <option value={""}>1/10</option>
-                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => {
-                                        return (
-                                            <option key={i} value={i}>{i}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-                        </div>
-                        <div className="right">
-                            <img src={imageData !== "" ? imageData : ""} alt="" className="preview" />
-                        </div>
-                    </div>
-                </div>
-                <hr />
-                <div className="action">
-                    <button className="cancel btn">Cancel</button>
-                    <button className="add btn">Add Suspect</button>
-                </div>
-            </div>
+            <h2>Copy Link</h2>
+            <br />
+            <p>Please copy the link below.</p>
+            <Link to={link} target="_blank" className="link">http://localhost:3000{link}</Link>
+            <br />
+            <button className="copy btn" onClick={() => {
+                navigator.clipboard.writeText(link);
+                notif.success("link coppied")
+            }}>Copy</button>
+            <button className="continue btn" onClick={() => {
+                let a = document.createElement("a");
+                a.href = link;
+                a.target = "_blank"
+                a.click()
+            }}>Continue to meeting</button>
         </div>
     )
 }
