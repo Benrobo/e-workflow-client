@@ -1,28 +1,27 @@
 import React, { useState } from 'react'
 import MainCont from '../../components/MainCont/MainCont'
-import Profile from '../../components/ProfileBar/Profile'
 import LeftNavbar from '../../components/LeftNavbar'
 
 import "./style.css"
 import Layout from '../../components/Layout/Layout'
-import { SuspectCards } from '../../components/Cards'
+import TopNavbar from '../../components/TopNavbar/Top'
 
 
-function Suspects() {
+function CreateDocument() {
     const [toggleAction, setToggleAction] = useState(false)
 
     return (
         <Layout>
-            <LeftNavbar active="suspects" />
+            <LeftNavbar active="addDocument" />
             <MainCont>
-                <h4>Suspects</h4>
+                <TopNavbar activeBar="Submit Document" />
+
+                <h4>Submit Document</h4>
                 <hr />
                 <br />
-                <SuspectCards setToggleAction={setToggleAction} toggleAction={toggleAction} />
             </MainCont>
-            <Profile />
         </Layout>
     )
 }
 
-export default Suspects
+export default CreateDocument

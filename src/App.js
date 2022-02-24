@@ -11,6 +11,14 @@ import Code from './pages/Code/Code';
 import SendMail from './pages/SendMail/SendMail';
 import Collab from './pages/Colab/Collab';
 import Meeting from './pages/Meeting/meeting';
+import Submissions from './pages/Documents/Submissions';
+import CreateDocument from './pages/Documents/CreateDoc';
+import Request from './pages/Request/Request';
+import Groups from './pages/Group/Groups';
+import Settings from './pages/Settings/Settings';
+import Permissions from './pages/Permission/Permission';
+import Roles from './pages/Roles/Roles';
+import Notifications from './pages/Notification/Notification';
 
 let util = new Util()
 
@@ -29,6 +37,14 @@ function App() {
           <Route path="/user/sendMail/" element={util.isLoggedIn() ? <SendMail /> : <SignIn />} />
           <Route path="/user/collab/" element={util.isLoggedIn() ? <Collab /> : <SignIn />} />
           <Route path="/user/meeting/:id" element={util.isLoggedIn() ? <Meeting /> : <SignIn />} />
+          <Route path="/user/settings" element={util.isLoggedIn() ? <Settings /> : <SignIn />} />
+          <Route path="/user/submissions" element={util.isLoggedIn() ? <Submissions /> : <SignIn />} />
+          <Route path="/user/addDocument" element={util.isLoggedIn() ? <CreateDocument /> : <SignIn />} />
+          <Route path="/user/request" element={util.isLoggedIn() ? <Request /> : <SignIn />} />
+          <Route path="/user/groups" element={util.isLoggedIn() ? <Groups /> : <SignIn />} />
+          <Route path="/user/permission" element={util.isLoggedIn() ? <Permissions /> : <SignIn />} />
+          <Route path="/user/roles" element={util.isLoggedIn() ? <Roles /> : <SignIn />} />
+          <Route path="/user/notifications" element={util.isLoggedIn() ? <Notifications /> : <SignIn />} />
         </Routes>
       </Router>
     </DataContextProvider>

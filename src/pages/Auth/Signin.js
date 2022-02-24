@@ -59,10 +59,11 @@ export default function Signin() {
                     notif.error(util.decodeJwt(refreshToken));
                     return Error(util.decodeJwt(refreshToken).message);
                 }
-                const { id, role, status } = util.decodeJwt(refreshToken);
+                const { id, role, status, type } = util.decodeJwt(refreshToken);
                 const saveuserInfo = {
                     id,
                     role,
+                    type,
                     status,
                     refreshToken
                 };
