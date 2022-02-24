@@ -4,12 +4,13 @@ import LeftNavbar from '../../components/LeftNavbar'
 import Layout from '../../components/Layout/Layout'
 import TopNavbar from '../../components/TopNavbar/Top'
 import { BsTrashFill } from 'react-icons/bs'
-import { Notification } from '../../helpers/util'
+import { Notification, Util } from '../../helpers/util'
 import "./style.css"
 
 import DataContext from '../../context/DataContext'
 
 const notyf = new Notification()
+const util = new Util()
 
 const template = `
     <h3>Hello, from e-workflow system.</h3>
@@ -38,6 +39,9 @@ function SendMail() {
         }
         if (to === "") {
             return notyf.error("mail {to} cant be empty")
+        }
+        if (!util.validateEmail(to)) {
+            return notyf.error("mail reciepient is invalid")
         }
         if (message === "") {
             return notyf.error("mail {body} cant be empty")
