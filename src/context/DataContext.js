@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import apiRoutes from "../api_routes";
 
 import { Util } from "../helpers/util";
@@ -27,6 +27,45 @@ export function DataContextProvider(props) {
         localStorage.clear();
         util.redirect("/signin", 100);
     }
+
+    // handle users data
+    async function getUsersId(userId) {
+        try {
+            setLoading(true)
+            let url = apiRoutes.getUsersById;
+            const data = {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${localData.refreshToken}`
+                },
+                body: JSON.stringify({ userId })
+            }
+
+            let req = await fetch(url, data);
+            let res = await req.json();
+
+            if (res && res.message && res.error === true) {
+                setLoading(false);
+                setError(res.message)
+                setAuthUserInfo([])
+                return { loading, data: authUserInfo, error }
+            }
+
+            setLoading(false);
+            setAuthUserInfo(res.data);
+            setError("")
+
+            return { loading, data: authUserInfo, error }
+
+        } catch (err) {
+            setLoading(false)
+            setError(err.message)
+            setAuthUserInfo([])
+            return { loading, data: authUserInfo, error }
+        }
+    }
+
 
     // handle sending of mail
     async function sendMail(payload) {
@@ -62,7 +101,7 @@ export function DataContextProvider(props) {
     }
 
     return (
-        <DataContext.Provider value={{ logout, locData, showeditprofile, setShowEditProfile, sendMail }}>
+        <DataContext.Provider value={{ logout, locData, localData, showeditprofile, setShowEditProfile, sendMail, getUsersId }}>
             {props.children}
         </DataContext.Provider>
     );

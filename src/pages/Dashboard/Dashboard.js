@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import MainCont from '../../components/MainCont/MainCont'
-import Profile from '../../components/ProfileBar/Profile'
 import LeftNavbar from '../../components/LeftNavbar'
 import Badge from '../../components/Badge/badge'
 import "./style.css"
@@ -9,8 +8,52 @@ import { FiMoreVertical } from 'react-icons/fi'
 import Modal from '../../components/Modal/Modal'
 import TopNavbar from '../../components/TopNavbar/Top'
 import { Link } from 'react-router-dom'
+import { Util } from "../../helpers/util";
+import apiRoutes from "../../api_routes";
+
+import DataContext from '../../context/DataContext'
+
+const util = new Util();
 
 function Dashboard() {
+
+    const { locData, localData } = useContext(DataContext)
+    const [authUserInfo, setAuthUserInfo] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    console.log(localData);
+
+    // get users data
+    useEffect(() => {
+        (async () => {
+            setLoading(true)
+            let url = apiRoutes.getAllUsers;
+            const data = {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${localData.refreshToken}`
+                },
+            }
+
+            let req = await fetch(url, data);
+            let res = await req.json();
+
+            if (res && res.message && res.error === true) {
+                setLoading(false);
+                setError(res.message)
+                setAuthUserInfo([])
+                return
+            }
+
+            setLoading(false);
+            setAuthUserInfo(res.data);
+            setError("")
+        })()
+    }, [])
+
+    console.log(authUserInfo, loading);
 
     const [visibility, setVisibility] = useState(false)
 
@@ -20,7 +63,7 @@ function Dashboard() {
             <MainCont>
                 <TopNavbar activeBar="Dashboard" />
                 <br />
-                <StatCards />
+                <StatCards loading={loading} datalength={authUserInfo.length} />
                 <br />
                 <RequestContainer setVisibility={setVisibility} />
                 {visibility && <Modal setVisibility={setVisibility}>
@@ -33,13 +76,13 @@ function Dashboard() {
 
 export default Dashboard
 
-function StatCards() {
+function StatCards({ loading, dataLength }) {
 
     return (
         <div className="cards-container">
             <div className="card-box">
                 <p>Total Students</p>
-                <h4>56</h4>
+                <h4>{loading}</h4>
             </div>
             <div className="card-box">
                 <p>Total Staffs</p>
