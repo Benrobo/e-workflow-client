@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import img from "../../assets/img/police.png"
 import "./style.css"
 
-function TopNavbar({ activeBar }) {
+import DataContext from "../../context/DataContext"
 
+function TopNavbar({ activeBar }) {
+    const { logout } = useContext(DataContext)
     const [visibility, setVisibility] = useState(false)
 
     return (
@@ -17,7 +19,7 @@ function TopNavbar({ activeBar }) {
                     <img src={img} alt="user image" onClick={() => setVisibility(!visibility)} className="img" />
 
                     {visibility && <div className="more-action">
-                        <li>Logout</li>
+                        <li onClick={() => logout()}>Logout</li>
                     </div>}
                 </div>
             </div>

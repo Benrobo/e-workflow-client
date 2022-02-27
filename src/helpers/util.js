@@ -40,8 +40,32 @@ export class Notification {
 }
 
 export class Util {
+  localData = JSON.parse(localStorage.getItem("e-workflow"))
+
   Error(msg) {
     return new Error(msg);
+  }
+
+  isStaff() {
+    const { type, role } = this.localData;
+    if (type === "staff" && role === "user") {
+      return true
+    }
+    return false
+  }
+  isStudent() {
+    const { type, role } = this.localData;
+    if (type === "student" && role === "user") {
+      return true
+    }
+    return false
+  }
+  isAdmin() {
+    const { type, role } = this.localData;
+    if (type === "staff" && role === "admin") {
+      return true
+    }
+    return false
   }
 
   isLoggedIn() {

@@ -69,8 +69,10 @@ export default function Signin() {
                 };
                 // save data to localstorage
                 util.saveLocalstorage(saveuserInfo);
-                util.redirect(`/user/dashboard/${id}`, 1500);
-                return;
+                if (role === "admin") {
+                    return util.redirect(`/user/dashboard/${id}`, 1500);
+                }
+                return util.redirect(`/user/settings/`, 1500);
             } catch (e) {
                 setLoading(false)
                 notif.error(e.message);

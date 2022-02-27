@@ -15,7 +15,6 @@ function LeftNavbar({ active }) {
 
     let { type, role, refreshToken } = JSON.parse(localStorage.getItem("e-workflow"));
 
-
     return (
         <div className="left-navbar-container">
             <div className="head">
@@ -43,7 +42,7 @@ function LeftNavbar({ active }) {
                     <FiSend className="icon" />
                     Send Mail
                 </Link>}
-                {type !== "student" && type === "student" && <Link to="/user/submissions" className={active === "submissions" ? "link active" : "link"}>
+                {(type === "student" || type === "staff") && <Link to="/user/submissions" className={active === "submissions" ? "link active" : "link"}>
                     <IoMdDocument className="icon" />
                     Submissions
                 </Link>}
@@ -59,7 +58,7 @@ function LeftNavbar({ active }) {
                     <FiGitPullRequest className="icon" />
                     Request
                 </Link>}
-                {role !== undefined && role === "user" && type === "student" && <Link to="/user/groups" className={active === "groups" ? "link active" : "link"}>
+                {(role !== undefined && role === "user") && type === "student" && <Link to="/user/groups" className={active === "groups" ? "link active" : "link"}>
                     <FaUsers className="icon" />
                     Group
                 </Link>}
