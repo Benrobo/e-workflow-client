@@ -15,6 +15,7 @@ const apiRoutes = {
     getTokens: `${protocol}//${hostname}:5000/api/token/getToken`,
     deleteToken: `${protocol}//${hostname}:5000/api/token/deleteToken`,
     sendMail: `${protocol}//${hostname}:5000/api/user/sendMail`,
+    getGroupByUserId: `${protocol}//${hostname}:5000/api/user/groups/all`,
     createGroup: `${protocol}//${hostname}:5000/api/user/groups/create`,
     addGroupMembers: `${protocol}//${hostname}:5000/api/user/groups/addMembers`,
     editGroup: `${protocol}//${hostname}:5000/api/user/groups/edit`,

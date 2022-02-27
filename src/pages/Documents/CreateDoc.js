@@ -13,7 +13,7 @@ const notif = new Notification()
 function CreateDocument() {
     const { localData } = useContext(DataContext)
     const [loading, setLoading] = useState(false)
-    const [visibility, setVisibility] = useState(false)
+    const [visibility, setVisibility] = useState(true)
     const [doctype, setDocType] = useState("CF");
     const [title, setTitle] = useState("")
     const [cordinator, setCordinator] = useState("")
@@ -60,6 +60,7 @@ function CreateDocument() {
         })()
 
     }, [])
+
 
     async function submitDocument() {
         // validate
@@ -169,7 +170,7 @@ function CreateDocument() {
                     </div>
                 </div>}
 
-                {(doctype === "FYP" && visibility === false) && <FinalYearProject setVisibility={setVisibility} setDocType={setDocType} restStates={restStates} submitDocument={submitDocument} loading={loading} usersdata={usersdata} error={error} />}
+                {(doctype === "FYP" && visibility === false) && <FinalYearProject setVisibility={setVisibility} setDocType={setDocType} restStates={restStates} submitDocument={submitDocument} loading={loading} usersdata={usersdata} error={error} localData={localData} />}
                 {(doctype === "CF" && visibility === false) && <CourseForm setVisibility={setVisibility} setDocType={setDocType} restStates={restStates} submitDocument={submitDocument} loading={loading} usersdata={usersdata} error={error} />}
 
             </MainCont>
@@ -283,11 +284,15 @@ function CourseForm({ setVisibility, setDocType, restStates, submitDocument, loa
     )
 }
 
-function FinalYearProject({ setVisibility, setDocType, restStates, submitDocument, loading, usersdata, error }) {
+function FinalYearProject({ setVisibility, setDocType, restStates, submitDocument, loading, usersdata, error, localData }) {
     const [filename, setFilename] = useState("")
     const [filetype, setFiletype] = useState("");
     const [valid, setValid] = useState(null)
 
+    // groups data
+    const [gloading, setGloading] = useState(false)
+    const [gerror, setGError] = useState("")
+    const [groupdata, setGroupData] = useState([]);
 
     const fileRef = useRef()
 
@@ -312,6 +317,38 @@ function FinalYearProject({ setVisibility, setDocType, restStates, submitDocumen
             restStates.setFileData(result)
         }
     }
+
+
+    // fetch groups data
+    useEffect(() => {
+        (async () => {
+            setGloading(true)
+            let url = apiRoutes.getGroupByUserId;
+            const data = {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${localData.refreshToken}`
+                },
+                body: JSON.stringify({ userId: localData.id })
+            }
+
+            let req = await fetch(url, data);
+            let res = await req.json();
+
+            if (res && res.message && res.error === true) {
+                setGloading(false);
+                setGError(res.message)
+                setGroupData([])
+                return
+            }
+
+            setGloading(false);
+            setGroupData(res.data);
+            setGError("")
+        })()
+
+    }, [])
 
     return (
         <div className="doc-cont">
@@ -363,6 +400,26 @@ function FinalYearProject({ setVisibility, setDocType, restStates, submitDocumen
                     <label htmlFor="">Group Name</label>
                     <select name="" id="" onChange={(e) => restStates.setGroupId(e.target.value)} className="select">
                         <option value="">-- select group --</option>
+                        {
+                            gloading === true ?
+                                "fetching cordinators..."
+                                :
+                                gerror !== "" ?
+                                    <option value="">{gerror}</option>
+                                    :
+                                    groupdata.length === 0 ?
+                                        <option value="">you dont have any group, create one.</option>
+                                        :
+                                        groupdata.map((group) => {
+
+                                            return (
+                                                <option value={group.id}>
+                                                    {group.name} ({group.courseName})
+                                                </option>
+                                            )
+                                        })
+
+                        }
                     </select>
                     <br />
                     <label htmlFor="">{filename === "" ? "file name" : filename.split("").splice(0, 20)}...</label>
