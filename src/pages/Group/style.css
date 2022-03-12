@@ -143,6 +143,11 @@
     display: flex;
 }
 
+.group-list .right .group-card .more-action.hide{
+    display: none;
+}
+
+
 .group-list .right .group-card .more-action li{
     font-size: 12px;
     padding: 5px;
@@ -252,15 +257,15 @@
 }
 
 .members-cont .members-list li .btn{
-    font-size: 15px;
+    font-size: 12px;
     padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--red2);
     color: var(--red1);
-    opacity: .7;
 }
+
 
 .members-cont .members-list li .btn:hover{
     opacity: 1;

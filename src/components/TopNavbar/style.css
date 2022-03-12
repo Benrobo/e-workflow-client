@@ -8,6 +8,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 1000;
 }
 
 .top-navbar .right .profile-info{
@@ -22,8 +23,8 @@
 
 
 .top-navbar .right .profile-info .img{
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     background: var(--dark1);
     padding: 0px;
     border-radius: 50%;
