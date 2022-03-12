@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import MainCont from '../../components/MainCont/MainCont'
 import LeftNavbar from '../../components/LeftNavbar'
-import apiRoutes from '../../api_routes'
 import Layout from '../../components/Layout/Layout'
 import TopNavbar from '../../components/TopNavbar/Top'
 import { Notification } from '../../helpers/util'
 import "./style.css"
-import DataContext from "../../context/DataContext"
-
+import DataContext from '../../context/DataContext'
+import apiRoutes from '../../api_routes'
 const notif = new Notification()
 
 function CreateDocument() {
@@ -288,7 +287,7 @@ function FinalYearProject({ setVisibility, setDocType, restStates, submitDocumen
     const [filename, setFilename] = useState("")
     const [filetype, setFiletype] = useState("");
     const [valid, setValid] = useState(null)
-
+    const [grouploading, setGroupLoading] = useState(false);
     // groups data
     const [gloading, setGloading] = useState(false)
     const [gerror, setGError] = useState("")
@@ -318,36 +317,39 @@ function FinalYearProject({ setVisibility, setDocType, restStates, submitDocumen
         }
     }
 
+    async function getGroups() {
+        try {
+            let url = apiRoutes.getGroupByUserId;
+            let options = {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${localData.refreshToken}`,
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    userId: localData.id,
+                }),
+            };
+            setGroupLoading(true);
+            let res = await fetch(url, options);
+            let data = await res.json();
+
+            setGroupLoading(false);
+
+            if (data && data.error === true) {
+                return notif.error(data.message);
+            }
+            setGroupData(data.data);
+
+        } catch (err) {
+            setGroupLoading(false);
+            return notif.error(err.message);
+        }
+    }
 
     // fetch groups data
     useEffect(() => {
-        (async () => {
-            setGloading(true)
-            let url = apiRoutes.getGroupByUserId;
-            const data = {
-                method: "post",
-                headers: {
-                    "content-type": "application/json",
-                    "Authorization": `Bearer ${localData.refreshToken}`
-                },
-                body: JSON.stringify({ userId: localData.id })
-            }
-
-            let req = await fetch(url, data);
-            let res = await req.json();
-
-            if (res && res.message && res.error === true) {
-                setGloading(false);
-                setGError(res.message)
-                setGroupData([])
-                return
-            }
-
-            setGloading(false);
-            setGroupData(res.data);
-            setGError("")
-        })()
-
+        getGroups()
     }, [])
 
     return (
@@ -401,24 +403,17 @@ function FinalYearProject({ setVisibility, setDocType, restStates, submitDocumen
                     <select name="" id="" onChange={(e) => restStates.setGroupId(e.target.value)} className="select">
                         <option value="">-- select group --</option>
                         {
-                            gloading === true ?
-                                "fetching cordinators..."
+                            grouploading ?
+                                <option value="">fetching group...</option>
                                 :
-                                gerror !== "" ?
-                                    <option value="">{gerror}</option>
+                                groupdata && groupdata.length === 0 ?
+                                    <option value="">No group available.</option>
                                     :
-                                    groupdata.length === 0 ?
-                                        <option value="">you dont have any group, create one.</option>
-                                        :
-                                        groupdata.map((group) => {
-
-                                            return (
-                                                <option value={group.id}>
-                                                    {group.name} ({group.courseName})
-                                                </option>
-                                            )
-                                        })
-
+                                    groupdata.map((g) => {
+                                        return (
+                                            <option value={g.id} key={g.id}>{g.name} ({g.courseName})</option>
+                                        )
+                                    })
                         }
                     </select>
                     <br />
