@@ -11,7 +11,7 @@ import apiRoutes from "../../api_routes";
 import Badge from "../../components/Badge/badge";
 import menuimg from "../../assets/icons/menu.png";
 import { FaArrowDown } from "react-icons/fa";
-const notif = new Notification();
+const notif = new Notification(4000);
 
 function Submissions() {
   const { localData } = useContext(DataContext);
@@ -40,6 +40,10 @@ function DocTables({ setDocView, setDocumentId }) {
   const [fetchloading, setFetchLoading] = useState(false);
   const [error, setError] = useState("");
   const [docdata, setDocData] = useState([]);
+
+  //   document deleting
+  const [docdeleteloading, setDocDeleteLoading] = useState(false);
+
   async function fetchAllDoc() {
     try {
       setFetchLoading(true);
@@ -83,6 +87,49 @@ function DocTables({ setDocView, setDocumentId }) {
         return setDocView(true);
       }
     }
+  }
+
+  async function deleteDocument(docId, docType, user_id) {
+    const confirm = window.confirm(
+      "Are you sure you wanna delete this document?"
+    );
+    if (confirm === false) return false;
+    try {
+      setDocDeleteLoading(true);
+      let url = apiRoutes.deleteDocument;
+      let options = {
+        method: "delete",
+        headers: {
+          Authorization: `Bearer ${localData.refreshToken}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user_id,
+          documentId: docId,
+          documentType: docType,
+        }),
+      };
+      let res = await fetch(url, options);
+      let result = await res.json();
+
+      setDocDeleteLoading(false);
+
+      if (result && result.error === true) {
+        return notif.error(result.message);
+      }
+
+      notif.success(result.message);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 1000);
+    } catch (err) {
+      setDocDeleteLoading(false);
+      return notif.error(err.message);
+    }
+  }
+
+  function editDocument() {
+    notif.error("Feature COMING SOON!!");
   }
 
   useEffect(() => {
@@ -164,15 +211,32 @@ function DocTables({ setDocView, setDocumentId }) {
                         {doc.userId !== localData.id ? (
                           ""
                         ) : (
-                          <li data-doc_id={doc.id} data-doc_id={doc.userId}>
+                          <li
+                            data-doc_id={doc.id}
+                            data-doc_id={doc.userId}
+                            onClick={(e) => {
+                              editDocument();
+                            }}
+                          >
                             Edit
                           </li>
                         )}
                         {doc.userId !== localData.id ? (
                           ""
                         ) : (
-                          <li data-doc_id={doc.id} data-doc_id={doc.userId}>
-                            Delete
+                          <li
+                            data-doc_id={doc.id}
+                            data-user_id={doc.userId}
+                            data-doctype={doc.documentType}
+                            onClick={async (e) => {
+                              let tgt = e.target.dataset;
+                              if (Object.entries(tgt).length > 2) {
+                                const { doc_id, user_id, doctype } = tgt;
+                                await deleteDocument(doc_id, doctype, user_id);
+                              }
+                            }}
+                          >
+                            {docdeleteloading ? "Deleting" : "Delete"}
                           </li>
                         )}
                       </div>
