@@ -404,6 +404,7 @@ function ViewMembers({ setVMVisibility, data, loading }) {
 }
 
 function AddMembers({ setAMVisibility, data, loading }) {
+    console.log(data)
     const { locData, localData } = useContext(DataContext);
     const [fetchloading, setFetchLoading] = useState(false);
     const [memberloading, setMemberLoading] = useState(false)
@@ -504,7 +505,9 @@ function AddMembers({ setAMVisibility, data, loading }) {
                             data && data.length === 0 ?
                                 <option value="">No group available.</option>
                                 :
-                                data.map((g) => {
+                                data.filter((group) => {
+                                    return group.userId === localData.id
+                                }).map((g) => {
                                     return (
                                         <option value={g.id} key={g.id}>{g.name}</option>
                                     )

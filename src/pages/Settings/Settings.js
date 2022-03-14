@@ -85,6 +85,47 @@ export default Settings;
 
 function Profile({ data, setShowEdit }) {
     const { userName, type, userRole, joined, mail, phoneNumber } = data[0];
+    const [loading, setLoading] = useState(false);
+    const { localData } = useContext(DataContext);
+
+
+    async function deleteAccount() {
+        const confirm = window.confirm("Are you sure you wanna delete this account ? this process is inreversible")
+
+        if (confirm === false) return false;
+
+        try {
+            setLoading(true);
+            let url = apiRoutes.deleteAccount;
+            let options = {
+                method: "delete",
+                headers: {
+                    Authorization: `Bearer ${localData.refreshToken}`,
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    userId: localData.id
+                }),
+            };
+            let res = await fetch(url, options);
+            let result = await res.json();
+
+            setLoading(false);
+
+            if (result && result.error === true) {
+                return notif.error(result.message);
+            }
+
+            notif.success(result.message);
+            setTimeout(() => {
+                window.localStorage.clear();
+                window.location.reload(true);
+            }, 1300);
+        } catch (err) {
+            setLoading(false);
+            return notif.error(err.message);
+        }
+    }
 
     return (
         <div className="profile-cont">
@@ -123,8 +164,13 @@ function Profile({ data, setShowEdit }) {
                     Update Profile
                 </button>
                 <div className="action mt-4">
-                    <button className="btn logout">Logout</button>
-                    <button className="btn delete">Delete Account</button>
+                    <button className="btn logout" onClick={() => {
+                        window.localStorage.clear()
+                        window.location.reload(true)
+                    }}>Logout</button>
+                    <button className="btn delete" onClick={async () => await deleteAccount()}>
+                        {loading ? "Deleting Account..." : "Delete Account"}
+                    </button>
                 </div>
             </div>
             <br />
@@ -189,6 +235,8 @@ function EditProfile({ data, setShowEdit }) {
             return notif.error(err.message);
         }
     }
+
+
 
     return (
         <div className="edit-profile-cont">
