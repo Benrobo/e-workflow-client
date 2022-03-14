@@ -9,8 +9,6 @@ import { Notification } from "../../helpers/util";
 import DataContext from "../../context/DataContext";
 import apiRoutes from "../../api_routes";
 import Badge from "../../components/Badge/badge";
-import menuimg from "../../assets/icons/menu.png";
-import { FaArrowDown } from "react-icons/fa";
 const notif = new Notification(4000);
 
 function Submissions() {

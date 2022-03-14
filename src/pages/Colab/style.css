@@ -50,3 +50,23 @@
     color: var(--gr1);
     border: 1px solid var(--gr2);
 }
+
+.spinner{
+    padding: 15px;
+    border-bottom: 5px solid var(--gr1);
+    border-top: 5px solid var(--gr2);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    animation: spin .2s linear infinite;
+    border-radius: 50%;
+
+}
+
+@keyframes spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    0%{
+        transform: rotate(360deg);
+    }
+}
