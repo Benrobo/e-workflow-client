@@ -70,10 +70,6 @@ function LeftNavbar({ active }) {
                     <FaUsersCog className="icon" />
                     Users
                 </Link>}
-                {role !== undefined && role === "admin" && <Link to="/user/roles" className={active === "roles" ? "link active" : "link"}>
-                    <RiUser6Fill className="icon" />
-                    Set Roles
-                </Link>}
             </div>
         </div>
     );
