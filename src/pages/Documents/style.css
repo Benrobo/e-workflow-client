@@ -382,6 +382,13 @@
     flex-direction: column;
 }
 
+.view-document .right-menu .action .main .add-btn{
+    background: var(--dark1);
+    color: var(--light3);
+    margin-top: 3px;
+    border: 2px solid var(--gr2);
+}
+
 .view-document .right-menu .action .main .members-cont{
     width: 100%;
     height: auto;
@@ -418,13 +425,34 @@
 }
 
 .view-document .right-menu .reports .reports-container{
+    width: 100%;
+    height: auto;
+    max-height: 350px;
+    overflow-y: scroll;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
 }
+
+.view-document .right-menu .reports .reports-container::-webkit-scrollbar{
+    width: 10px;
+}
+
+.view-document .right-menu .reports .reports-container::-webkit-scrollbar-thumb{
+    background:#777;
+    border-radius: 30px;
+}
+
 .view-document .right-menu .reports .reports-container .bx{
     border-bottom: 1px solid #777;
+}
+.view-document .right-menu .reports .reports-container .bx .delete{
+    font-size: 12px;
+    padding: 2px 8px;
+    background: var(--red2);
+    color: var(--red1);
+    opacity: 1;
 }
 .view-document .right-menu .reports .reports-container .bx span{
     opacity: .7;
