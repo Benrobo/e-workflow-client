@@ -23,6 +23,8 @@ const apiRoutes = {
     deleteGroupMembers: `${protocol}//${hostname}:5000/api/user/groups/deleteMemebers`,
     deleteGroup: `${protocol}//${hostname}:5000/api/user/groups/deleteGroup`,
     addDocument: `${protocol}//${hostname}:5000/api/user/documents/add`,
+    addFeedback: `${protocol}//${hostname}:5000/api/documents/feedback/add`,
+    getDocFeedBack: `${protocol}//${hostname}:5000/api/documents/feedback/all`,
     editDocument: `${protocol}//${hostname}:5000/api/user/documents/edit`,
     deleteDocument: `${protocol}//${hostname}:5000/api/user/documents/delete`,
     getAllDocs: `${protocol}//${hostname}:5000/api/documents/all`,
