@@ -10,6 +10,8 @@ const apiRoutes = {
   changePermission: `${protocol}//${hostname}:5000/api/staff/permission/edit`,
   getAllUsers: `${protocol}//${hostname}:5000/api/users/all`,
   getUsersById: `${protocol}//${hostname}:5000/api/users/id`,
+  updateAccount: `${protocol}//${hostname}:5000/api/users/account/update`,
+  deleteAccount: `${protocol}//${hostname}:5000/api/users/account/delete`,
   createToken: `${protocol}//${hostname}:5000/api/token/generate`,
   getTokens: `${protocol}//${hostname}:5000/api/token/getToken`,
   deleteToken: `${protocol}//${hostname}:5000/api/token/deleteToken`,
