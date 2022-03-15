@@ -313,6 +313,13 @@
     outline: none;
 }
 
+.view-document .document-container .btn{
+    background: var(--red2);
+    color: var(--red1);
+    padding: 4px 15px;
+    margin-bottom: 10px;
+}
+
 .view-document .right-menu{
     width: 40%;
     max-width: 300px;
