@@ -46,7 +46,7 @@ function Collab() {
 export default Collab;
 
 function MeetingInfo({ id }) {
-  let link = `/user/meeting/${id}`;
+  let link = `http://localhost:3000/user/meeting/${id}`;
   const [visibility, setVisibility] = useState(false);
 
   setTimeout(() => {
