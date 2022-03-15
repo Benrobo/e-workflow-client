@@ -6,15 +6,17 @@ import Layout from "../../components/Layout/Layout";
 import TopNavbar from "../../components/TopNavbar/Top";
 import { BiPlus, BiMenuAltLeft } from "react-icons/bi";
 import { FaTrash } from "react-icons/fa";
-import { Notification } from "../../helpers/util";
+import { Notification, Util } from "../../helpers/util";
 import Modal from "../../components/Modal/Modal";
 import DataContext from "../../context/DataContext";
 import apiRoutes from "../../api_routes";
 
 const notif = new Notification();
+const util = new Util()
+
 
 function Groups() {
-    const { locData, localData } = useContext(DataContext);
+    const { locData, localData, fetchUser } = useContext(DataContext);
     const [CGvisibility, setCGVisibility] = useState(false); // create group
     const [AMvisibility, setAMVisibility] = useState(false); // add members
     const [VMvisibility, setVMVisibility] = useState(false); // view members
@@ -29,6 +31,19 @@ function Groups() {
         let target = e.target.parentElement.parentElement.lastChild;
         target.classList.toggle("show")
     }
+
+    useEffect(() => {
+        (async () => {
+            let res = await fetchUser();
+            const { loading, error, data } = res;
+            let user = data[0][0];
+
+            if (user.userId !== localData.id || user.type !== "student") {
+                util.redirect("http://localhost:3000/user/settings")
+            }
+        })()
+
+    }, [])
 
 
     async function getGroups() {

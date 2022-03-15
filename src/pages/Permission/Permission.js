@@ -5,20 +5,33 @@ import LeftNavbar from '../../components/LeftNavbar'
 import "./style.css"
 import Layout from '../../components/Layout/Layout'
 import TopNavbar from '../../components/TopNavbar/Top'
-import { Notification } from "../../helpers/util";
+import { Notification, Util } from "../../helpers/util";
 import DataContext from "../../context/DataContext";
 import apiRoutes from "../../api_routes";
 
 const notif = new Notification();
-
+const util = new Util()
 
 function Permissions() {
 
-    const { locData, localData } = useContext(DataContext);
+    const { locData, localData, fetchUser } = useContext(DataContext);
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const [usersdata, setUserData] = useState([]);
 
+    useEffect(() => {
+        (async () => {
+            let res = await fetchUser();
+            const { loading, error, data } = res;
+            let user = data[0][0];
+
+            if (user.userId !== localData.id || user.userRole !== "admin") {
+                window.location = "http://localhost:3000/user/settings"
+                util.redirect("http://localhost:3000/user/settings")
+            }
+        })()
+
+    }, [])
 
     async function fetchUsers() {
         try {

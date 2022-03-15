@@ -14,9 +14,24 @@ const util = new Util()
 const notfy = new Notification()
 
 function Code() {
-    if(localStorage.getItem("e-workflow") === null){
+    const { localData, fetchUser } = useContext(DataContext)
+    if (localStorage.getItem("e-workflow") === null) {
         window.location = "/signup"
     }
+
+    useEffect(() => {
+        (async () => {
+            let res = await fetchUser();
+            const { loading, error, data } = res;
+            let user = data[0][0];
+
+            if (user.userId !== localData.id || user.userRole !== "admin") {
+                util.redirect("http://localhost:3000/user/settings", 0)
+            }
+        })()
+
+    }, [])
+
     return (
         <Layout>
             <LeftNavbar active="code" />

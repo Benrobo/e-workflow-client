@@ -11,8 +11,8 @@ const util = new Util();
 
 export function DataContextProvider(props) {
     const [authUserInfo, setAuthUserInfo] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    // const [loading, setLoading] = useState(false);
+    // const [error, setError] = useState(null);
 
     // localstorageData
     const locData = util.getLocalstorageData();
@@ -26,6 +26,46 @@ export function DataContextProvider(props) {
     function logout() {
         localStorage.clear();
         util.redirect("/signin", 100);
+    }
+
+    // fetch users
+    async function fetchUser() {
+        let loading = true;
+        let error = "";
+        const data = [];
+
+        try {
+
+            let url = apiRoutes.getUsersById;
+            const options = {
+                method: "post",
+                headers: {
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${localData.refreshToken}`
+                },
+                body: JSON.stringify({ userId: localData.id })
+            }
+
+            let req = await fetch(url, options);
+            let res = await req.json();
+
+            if (res && res.message && res.error === true) {
+                loading = false;
+                error = res.message
+                data = []
+                return { loading, error, data }
+            }
+
+            loading = false;
+            error = "";
+            data.push(res.data);
+            return { loading, error, data }
+        } catch (err) {
+            loading = false;
+            data = [];
+            error = err.message;
+            return { loading, error, data }
+        }
     }
 
     // handle sending of mail
@@ -62,7 +102,7 @@ export function DataContextProvider(props) {
     }
 
     return (
-        <DataContext.Provider value={{ logout, locData, localData, showeditprofile, setShowEditProfile, sendMail }}>
+        <DataContext.Provider value={{ logout, locData, localData, showeditprofile, setShowEditProfile, sendMail, fetchUser }}>
             {props.children}
         </DataContext.Provider>
     );

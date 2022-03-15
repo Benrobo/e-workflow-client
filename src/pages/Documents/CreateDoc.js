@@ -3,14 +3,16 @@ import MainCont from '../../components/MainCont/MainCont'
 import LeftNavbar from '../../components/LeftNavbar'
 import Layout from '../../components/Layout/Layout'
 import TopNavbar from '../../components/TopNavbar/Top'
-import { Notification } from '../../helpers/util'
+import { Notification, Util } from '../../helpers/util'
 import "./style.css"
 import DataContext from '../../context/DataContext'
 import apiRoutes from '../../api_routes'
+
 const notif = new Notification()
+const util = new Util()
 
 function CreateDocument() {
-    const { localData } = useContext(DataContext)
+    const { localData, fetchUser } = useContext(DataContext)
     const [loading, setLoading] = useState(false)
     const [visibility, setVisibility] = useState(true)
     const [doctype, setDocType] = useState("CF");
@@ -21,6 +23,20 @@ function CreateDocument() {
     const [filedata, setFileData] = useState("")
     const [filetype, setFileType] = useState("")
     const [groupId, setGroupId] = useState("")
+
+
+    useEffect(() => {
+        (async () => {
+            let res = await fetchUser();
+            const { loading, error, data } = res;
+            let user = data[0][0];
+
+            if (user.userId !== localData.id || user.type !== "student") {
+                util.redirect("http://localhost:3000/user/settings", 0)
+            }
+        })()
+
+    }, [])
 
     // users data
     const [error, setError] = useState("")

@@ -21,7 +21,9 @@ function Dashboard() {
 
     const { localData } = useContext(DataContext)
     const [authUserInfo, setAuthUserInfo] = useState([]);
+    const [docdata, setDocData] = useState([])
     const [loading, setLoading] = useState(false);
+    const [docloading, setDocLoading] = useState(false)
     const [error, setError] = useState(null);
 
     const [targetUserId, setTargetId] = useState("");
@@ -29,7 +31,34 @@ function Dashboard() {
     // check if user is an admin, if not redirect to settings page not dashboard. admin are meant to view only dashboard not staff or student
 
     if (util.isStudent() || util.isStaff()) {
-        util.redirect("/user/settings");
+        util.redirect("http://localhost:3000/user/settings");
+    }
+
+    async function fetchAllDoc() {
+        try {
+            setDocLoading(true);
+            let url = apiRoutes.getAllDocs;
+            let options = {
+                method: "get",
+                headers: {
+                    Authorization: `Bearer ${localData.refreshToken}`,
+                    "content-type": "application/json",
+                },
+            };
+            let res = await fetch(url, options);
+            let result = await res.json();
+
+            setDocLoading(false);
+
+            if (result && result.error === true) {
+                setError(result.message);
+                return notif.error(result.message);
+            }
+            setDocData(result.document);
+        } catch (err) {
+            setDocLoading(false);
+            return notif.error(err.message);
+        }
     }
 
     // get users data
@@ -59,6 +88,7 @@ function Dashboard() {
             setAuthUserInfo(res.data);
             setError("")
         })()
+        fetchAllDoc()
     }, [])
 
     const [visibility, setVisibility] = useState(false)
@@ -69,7 +99,7 @@ function Dashboard() {
             <MainCont>
                 <TopNavbar activeBar="Dashboard" />
                 <br />
-                <StatCards loading={loading} data={authUserInfo} />
+                <StatCards loading={loading} data={authUserInfo} docdata={docdata} />
                 <br />
                 <RequestContainer setVisibility={setVisibility} loading={loading} data={authUserInfo} setTargetId={setTargetId} />
                 {visibility && <Modal setVisibility={setVisibility}>
@@ -82,7 +112,7 @@ function Dashboard() {
 
 export default Dashboard
 
-function StatCards({ loading, data }) {
+function StatCards({ loading, data, docdata }) {
     let students = data.filter((data) => {
         return data.type === "student"
     })
@@ -103,7 +133,7 @@ function StatCards({ loading, data }) {
             </div>
             <div className="card-box">
                 <p>Total Documents</p>
-                <h4>36</h4>
+                <h4>{docdata.length}</h4>
             </div>
         </div>
     )
