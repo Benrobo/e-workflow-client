@@ -267,7 +267,7 @@ Navigate to where the `e-workflow` and `e-workflow-server` was downloaded and ru
 
 you should be presented with this screen
 
-<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/login.png">
+<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/login.PNG">
 
 Now you're ready to navigate through the site.
 
