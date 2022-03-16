@@ -277,3 +277,57 @@ If any issue was met during this process simply create an issue on the issues gi
 
 - [x] [e-workflow-client: issue tab](https://github.com/Benrobo/e-workflow-client/issues)
 - [x] [babcock-api: issue tab](https://github.com/Benrobo/e-workflow-server/issues)
+
+
+## Some Backend Configurations.
+
+## 1. Sending Mails
+
+As you well know that this system allow sending of mails using Gmail smtp mail server along with a nodejs package called `node-mailer`. For this to work properlly, you need to add some configuration within the `e-workflow-server` app.
+
+## Setups
+
+1. Open the `e-workflow-server` application in your preferable code editor tools.
+2. Create an environmental variable file called `.env`. This is a simple text configuration file for controlling your Applications environment constants.
+3. After creating one, open the file and paste into this file some configurations you need.
+   ```
+    DB_HOST="localhost"
+    DB_USER="postgres" // this would be the default user for your postgresql database when setting it up.
+    DB_NAME="e-workflow" // database name
+    DB_PWD="1234" // postgresql password
+
+    MAIL_USERNAME="address@gmail.com" // your gmail address
+    MAIL_PASSWORD="1234" // your gmail password
+
+    JWT_REFRESH_SECRET=8389cad5c066f561678309435646b98f
+    JWT_ACCESS_SECRET=f98a3d1eb308da7e1dbdf21c23b8259t
+
+   ```
+
+   Looking at this above, you would know why we prefer to store this into a `.env` file.
+
+4. For gmail to accept incomming mail from an application outside it domain without classifying the message or inbox as `SPAM`, we need to enable an important setting on your gmail account.
+5. Enable Less Secure Apps On Gmail.
+   1. Go to https://accounts.google.com/ web page to login to your google account.
+   2. Click the `Security` menu item on left, then scroll down on right and click the `Turn on access(not recommended)` `link under the Less secure app` access section in right. 
+   
+   <img src="https://www.dev2qa.com/wp-content/uploads/2019/01/google-account-security-turn-on-off-less-secure-apps.webp">  
+
+   3. Now turn on `Allow less secure apps:ON` toggle button on the new page.
+   
+   <img src="https://www.dev2qa.com/wp-content/uploads/2019/01/turn-on-allow-less-secure-apps.webp">
+
+   4. But as google said this action is not recommended, because there will be risks for your Gmail account. So you had better turn it off after your testing to make your google account more safety.
+6. After doing all this, you can simply open the client application. Register as an admin by moving into the `private route`
+
+   1. http://localhost:3000/admin/user/signup
+   
+   This would open up a page which look like the picture below.
+
+   <img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/admin-signup.PNG">
+
+7. After registering and logging in as admin, simply move to a section called `send mail` page. This would open up a new page which looks like the picture below.
+
+   <img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/mail.PNG">
+
+8. Try sending to your own mail address just to test it out. If rit works, then you know youve `SUCESSFULLY` setup sending of mail from this application.
