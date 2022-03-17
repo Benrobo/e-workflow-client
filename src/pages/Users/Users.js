@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import MainCont from '../../components/MainCont/MainCont'
-import Profile from '../../components/ProfileBar/Profile'
+// import Profile from '../../components/ProfileBar/Profile'
 import LeftNavbar from '../../components/LeftNavbar'
 
 import "./style.css"

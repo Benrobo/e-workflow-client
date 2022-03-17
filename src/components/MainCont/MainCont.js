@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import Modal from '../Modal/Modal'
-import EditProfile from '../ProfileBar/EditProfile'
 
 import "./style.css"
 
@@ -11,9 +10,6 @@ function MainCont({ children }) {
 
     return (
         <div className="main-container">
-            {showeditprofile && <Modal>
-                <EditProfile />
-            </Modal>}
             {children}
         </div>
     )

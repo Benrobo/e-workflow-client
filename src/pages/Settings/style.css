@@ -105,10 +105,14 @@
     position: relative;
     padding: 15px;
     border-radius: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
-
 .edit-profile-cont .main .bx{
+    width: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -126,7 +130,7 @@
     width: 100%;
 }
 
-.edit-profile-cont .main .input{
+.edit-profile-cont .main .bx .input{
     width: 100%;
     height: auto;
     padding: 10px;
@@ -138,6 +142,7 @@
 }
 
 .edit-profile-cont .main .action{
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
