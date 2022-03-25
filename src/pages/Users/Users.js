@@ -8,6 +8,12 @@ import Layout from '../../components/Layout/Layout'
 import DataContext from '../../context/DataContext'
 import Badge from '../../components/Badge/badge'
 import apiRoutes from '../../api_routes'
+import { Notification, Util } from "../../helpers/util";
+
+const notif = new Notification();
+const util = new Util()
+
+
 
 function Users() {
     const { locData, localData, fetchUser } = useContext(DataContext);
@@ -15,7 +21,19 @@ function Users() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    useEffect(() => {
+        (async () => {
+            let res = await fetchUser();
+            const { loading, error, data } = res;
+            let user = data[0][0];
 
+            if (user.userId !== localData.id || user.userRole !== "admin") {
+                window.location = "http://localhost:3000/user/settings"
+                util.redirect("http://localhost:3000/user/settings", 0)
+            }
+        })()
+
+    }, [])
 
 
     useEffect(() => {

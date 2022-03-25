@@ -187,8 +187,8 @@ function DocTables({ setDocView, setDocumentId }) {
                           doc.status === "pending"
                             ? "p"
                             : doc.status === "rejected"
-                            ? "r"
-                            : "a"
+                              ? "r"
+                              : "a"
                         }
                       />
                     </td>
@@ -275,7 +275,6 @@ function ViewDocument({ documentId, setDocView }) {
 
   async function fetchDoc() {
     if (documentId === "") return;
-    console.log({ documentId });
     try {
       setFetchLoading(true);
       let url = apiRoutes.getDocsById;
@@ -309,7 +308,6 @@ function ViewDocument({ documentId, setDocView }) {
   }
 
   async function fetchMembers(groupId) {
-    console.log(groupId);
     try {
       setMemberLoading(true);
       let url = apiRoutes.getGroupMembers;
@@ -535,7 +533,14 @@ function ViewDocument({ documentId, setDocView }) {
                 >
                   close
                 </button>
-                <iframe src={doc.file} className="doc-preview"></iframe>
+                <div className="frame-cont">
+                  <iframe src={doc.file} className="doc-preview"></iframe>
+                  {/* View Signature */}
+                  <ViewDocumentSignatures />
+                  <br />
+                  <br />
+                  <br />
+                </div>
               </div>
               <div className="right-menu">
                 <div className="info">
@@ -549,10 +554,10 @@ function ViewDocument({ documentId, setDocView }) {
                       doc.status === "pending"
                         ? "p"
                         : doc.status === "approved"
-                        ? "a"
-                        : doc.status === "rejected"
-                        ? "r"
-                        : "p"
+                          ? "a"
+                          : doc.status === "rejected"
+                            ? "r"
+                            : "p"
                     }
                   />
                   <br />
@@ -562,7 +567,7 @@ function ViewDocument({ documentId, setDocView }) {
                 </div>
                 <div className="action">
                   <div className="btn-action">
-                    {doc.staffId === localData.id && (
+                    {(doc.documentPermissions === 4) && (
                       <button
                         className="btn approve"
                         disabled={approveloading ? true : false}
@@ -580,7 +585,7 @@ function ViewDocument({ documentId, setDocView }) {
                         {approveloading ? "Approving..." : "Approve"}
                       </button>
                     )}
-                    {doc.staffId === localData.id && (
+                    {(doc.documentPermissions === 4) && (
                       <button
                         className="btn reject"
                         disabled={rejectloading ? true : false}
@@ -736,6 +741,7 @@ function ViewDocument({ documentId, setDocView }) {
                     </div>
                   )}
                 </div>
+                {/* Add Signature */}
               </div>
             </>
           );
@@ -743,4 +749,43 @@ function ViewDocument({ documentId, setDocView }) {
       )}
     </div>
   );
+}
+
+
+function ViewDocumentSignatures() {
+
+  return (
+    <div className="doc-signature mt-3 mb-3">
+      <div className="head">
+        <p>Document Signature <kbd>0/3</kbd> </p>
+      </div>
+      <br />
+      <table className="signature-tbl">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Staff Name</th>
+            <th>Type</th>
+            <th>Signature Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>cdsc</td>
+            <td>Bolla Gruu</td>
+            <td>School Officer</td>
+            <td>
+              <kbd>none</kbd>
+            </td>
+            <td>
+              <button className="btn btn-danger">
+                del
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  )
 }

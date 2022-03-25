@@ -171,6 +171,7 @@ function DocumentPermission({ data }) {
                     <option value="1">1 [Student] default (student) </option>
                     <option value="2">2 [Cordinators, Lecturers] default (staff) </option>
                     <option value="3">3 [HOD's, VP, Pricipal etc...] </option>
+                    <option value="4">4 [Dean, ..] </option>
                 </select>
             </div>
             <br />

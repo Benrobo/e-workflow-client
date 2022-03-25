@@ -42,10 +42,10 @@ function LeftNavbar({ active }) {
                     <AiOutlineDashboard className="icon" />
                     Dashboard
                 </Link>}
-                {/* <Link to="/user/notifications" className={active === "notifications" ? "link active" : "link"}>
+                <Link to="/user/notifications" className={active === "notifications" ? "link active" : "link"}>
                     <RiNotification2Fill className="icon" />
                     Notification
-                </Link> */}
+                </Link>
                 <Link to="/user/settings" className={active === "settings" ? "link active" : "link"}>
                     <FaCog className="icon" />
                     Settings
@@ -82,10 +82,10 @@ function LeftNavbar({ active }) {
                     <FaLock className="icon" />
                     Permission
                 </Link>}
-                <Link to="/user/users" className={active === "users" ? "link active" : "link"}>
+                {user.userRole === "admin" && <Link to="/user/users" className={active === "users" ? "link active" : "link"}>
                     <FaUsersCog className="icon" />
                     Users
-                </Link>
+                </Link>}
             </div>
         </div>
     );
