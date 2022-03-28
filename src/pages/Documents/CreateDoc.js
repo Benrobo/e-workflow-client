@@ -17,7 +17,11 @@ function CreateDocument() {
     const [visibility, setVisibility] = useState(true)
     const [doctype, setDocType] = useState("CF");
     const [title, setTitle] = useState("")
-    const [cordinator, setCordinator] = useState("")
+    const [courseadvisor, setCourseAdvisor] = useState("")
+    const [schoolofficer, setSchoolOfficer] = useState("")
+    const [hod, setHOD] = useState("")
+    const [supervisor, setSupervisor] = useState("")
+    const [externalsupervisor, setExternalSupervisor] = useState("")
     const [coursetype, setCoursetype] = useState("")
     const [coursename, setCoursename] = useState("")
     const [filedata, setFileData] = useState("")
@@ -43,7 +47,7 @@ function CreateDocument() {
     const [usersdata, setUsersData] = useState([]);
 
     const restStates = {
-        title, cordinator, coursename, coursetype, filedata, filetype, setTitle, setCordinator, setCoursetype, setCoursename, setFileData, setFileType, setGroupId
+        title, supervisor, courseadvisor, schoolofficer, externalsupervisor, hod, coursename, coursetype, filedata, filetype, setTitle, setSupervisor, setCourseAdvisor, setSchoolOfficer, setExternalSupervisor, setHOD, setCoursetype, setCoursename, setFileData, setFileType, setGroupId
     }
 
     // get users data
@@ -82,8 +86,20 @@ function CreateDocument() {
         if (title === "") {
             return notif.error("document title cant be left empty")
         }
-        if (cordinator === "") {
-            return notif.error("document cordinator cant be left empty")
+        if (doctype === "CF" && courseadvisor === "") {
+            return notif.error("document course advisor cant be left empty")
+        }
+        if (doctype === "FYP" && supervisor === "") {
+            return notif.error("document supervisor cant be left empty")
+        }
+        if (doctype === "CF" && schoolofficer === "") {
+            return notif.error("document school officer cant be left empty")
+        }
+        if (hod === "") {
+            return notif.error("document HOD cant be left empty")
+        }
+        if (doctype === "FYP" && externalsupervisor === "") {
+            return notif.error("document external supervisor cant be left empty")
         }
         if (coursetype === "") {
             return notif.error("document coursetype cant be left empty")
@@ -111,13 +127,16 @@ function CreateDocument() {
                 documentType: doctype,
                 courseName: coursename,
                 courseType: coursetype,
-                staffId: cordinator,
+                schoolOfficer: schoolofficer,
+                courseAdvisor: courseadvisor,
+                HOD: hod,
                 file: {
                     type: filetype,
                     data: filedata
                 }
             }
         }
+
         if (doctype === "FYP") {
             sendPayload = {
                 userId: localData.id,
@@ -126,7 +145,9 @@ function CreateDocument() {
                 documentType: doctype,
                 courseName: coursename,
                 courseType: coursetype,
-                staffId: cordinator,
+                supervisor: supervisor,
+                externalSupervisor: externalsupervisor,
+                HOD: hod,
                 file: {
                     type: filetype,
                     data: filedata
@@ -200,6 +221,7 @@ function CourseForm({ setVisibility, setDocType, restStates, submitDocument, loa
     const [filetype, setFiletype] = useState("");
     const [valid, setValid] = useState(null)
 
+    console.log(usersdata);
 
     const fileRef = useRef()
 
@@ -225,6 +247,12 @@ function CourseForm({ setVisibility, setDocType, restStates, submitDocument, loa
         }
     }
 
+    let courseAdvisor = usersdata.filter((users, i) => users.documentPermissions === 6)
+    let schoolOfficers = usersdata.filter((users, i) => users.documentPermissions === 5)
+    let HOD = usersdata.filter((users, i) => users.documentPermissions === 2)
+
+    // console.log(courseAdvisor, schoolOfficers, HOD);
+
     return (
         <div className="doc-cont">
             <div className="head">
@@ -237,20 +265,30 @@ function CourseForm({ setVisibility, setDocType, restStates, submitDocument, loa
                     <input type="text" defaultValue={restStates.title} onChange={(e) => restStates.setTitle(e.target.value)} placeholder='some dummy title' className="input" />
                 </div>
                 <div className="bx">
-                    <label htmlFor="">Course Cordinator</label>
-                    <select className="select" onChange={(e) => restStates.setCordinator(e.target.value)}>
-                        <option value="">-- Cordinators --</option>
+                    <label htmlFor="">Course Type</label>
+                    <input type="text" defaultValue={restStates.coursetype} onChange={(e) => restStates.setCoursetype(e.target.value)} placeholder='Computer Science' className="input" />
+                </div>
+            </div>
+            <div className="d-flex">
+                <div className="bx">
+                    <label htmlFor="">Course Name</label>
+                    <input type="text" defaultValue={restStates.coursename} onChange={(e) => restStates.setCoursename(e.target.value)} placeholder='Computer Science' className="input" />
+                </div>
+                <div className="bx">
+                    <label htmlFor="">School Officers</label>
+                    <select className="select" onChange={(e) => restStates.setSchoolOfficer(e.target.value)}>
+                        <option value="">----</option>
                         {
                             loading === true ?
-                                "fetching cordinators..."
+                                "fetching school officers..."
                                 :
                                 error !== "" ?
                                     <option value="">{error}</option>
                                     :
-                                    usersdata.length === 0 ?
-                                        <option value="">No cordinators available</option>
+                                    schoolOfficers.length === 0 ?
+                                        <option value="">No course advisor available</option>
                                         :
-                                        usersdata.map((users) => {
+                                        schoolOfficers.map((users) => {
                                             if (users.type === "staff" && users.type !== "student") {
                                                 return (<option value={users.userId}>{users.userName} ({users.type})</option>)
                                             }
@@ -259,15 +297,51 @@ function CourseForm({ setVisibility, setDocType, restStates, submitDocument, loa
                         }
                     </select>
                 </div>
-            </div>
-            <div className="d-flex">
                 <div className="bx">
-                    <label htmlFor="">Course Type</label>
-                    <input type="text" defaultValue={restStates.coursetype} onChange={(e) => restStates.setCoursetype(e.target.value)} placeholder='Computer Science' className="input" />
+                    <label htmlFor="">Course Advisor</label>
+                    <select className="select" onChange={(e) => restStates.setCourseAdvisor(e.target.value)}>
+                        <option value="">----</option>
+                        {
+                            loading === true ?
+                                "fetching supervisors..."
+                                :
+                                error !== "" ?
+                                    <option value="">{error}</option>
+                                    :
+                                    courseAdvisor.length === 0 ?
+                                        <option value="">No course advisor available</option>
+                                        :
+                                        courseAdvisor.map((users) => {
+                                            if (users.type === "staff" && users.type !== "student") {
+                                                return (<option value={users.userId}>{users.userName} ({users.type})</option>)
+                                            }
+                                        })
+
+                        }
+                    </select>
                 </div>
                 <div className="bx">
-                    <label htmlFor="">Course Name</label>
-                    <input type="text" defaultValue={restStates.coursename} onChange={(e) => restStates.setCoursename(e.target.value)} placeholder='Intro to OS' className="input" />
+                    <label htmlFor="">HOD's</label>
+                    <select className="select" onChange={(e) => restStates.setHOD(e.target.value)}>
+                        <option value="">----</option>
+                        {
+                            loading === true ?
+                                "fetching HOD's..."
+                                :
+                                error !== "" ?
+                                    <option value="">{error}</option>
+                                    :
+                                    HOD.length === 0 ?
+                                        <option value="">No HOD available</option>
+                                        :
+                                        HOD.map((users) => {
+                                            if (users.type === "staff" && users.type !== "student") {
+                                                return (<option value={users.userId}>{users.userName} ({users.type})</option>)
+                                            }
+                                        })
+
+                        }
+                    </select>
                 </div>
             </div>
             <div className="file-cont">
@@ -368,6 +442,10 @@ function FinalYearProject({ setVisibility, setDocType, restStates, submitDocumen
         getGroups()
     }, [])
 
+    let supervisor = usersdata.filter((users, i) => users.documentPermissions === 4)
+    let externalSupervisor = usersdata.filter((users, i) => users.documentPermissions === 7)
+    let HOD = usersdata.filter((users, i) => users.documentPermissions === 2)
+
     return (
         <div className="doc-cont">
             <div className="head">
@@ -380,20 +458,30 @@ function FinalYearProject({ setVisibility, setDocType, restStates, submitDocumen
                     <input type="text" defaultValue={restStates.title} onChange={(e) => restStates.setTitle(e.target.value)} placeholder='some dummy title' className="input" />
                 </div>
                 <div className="bx">
-                    <label htmlFor="">-- Cordinators --</label>
-                    <select className="select" onChange={(e) => restStates.setCordinator(e.target.value)}>
-                        <option value="">-- Cordinators --</option>
+                    <label htmlFor="">Course Type</label>
+                    <input type="text" defaultValue={restStates.coursetype} onChange={(e) => restStates.setCoursetype(e.target.value)} placeholder='Computer Science' className="input" />
+                </div>
+            </div>
+            <div className="d-flex">
+                <div className="bx">
+                    <label htmlFor="">Course Name</label>
+                    <input type="text" defaultValue={restStates.coursename} onChange={(e) => restStates.setCoursename(e.target.value)} placeholder='Computer Science' className="input" />
+                </div>
+                <div className="bx">
+                    <label htmlFor="">External Supervisors</label>
+                    <select className="select" onChange={(e) => restStates.setExternalSupervisor(e.target.value)}>
+                        <option value="">----</option>
                         {
                             loading === true ?
-                                "fetching cordinators..."
+                                "fetching..."
                                 :
                                 error !== "" ?
                                     <option value="">{error}</option>
                                     :
-                                    usersdata.length === 0 ?
-                                        <option value="">No cordinators available</option>
+                                    externalSupervisor.length === 0 ?
+                                        <option value="">No external supervisors available</option>
                                         :
-                                        usersdata.map((users) => {
+                                        externalSupervisor.map((users) => {
                                             if (users.type === "staff" && users.type !== "student") {
                                                 return (<option value={users.userId}>{users.userName} ({users.type})</option>)
                                             }
@@ -402,15 +490,51 @@ function FinalYearProject({ setVisibility, setDocType, restStates, submitDocumen
                         }
                     </select>
                 </div>
-            </div>
-            <div className="d-flex">
                 <div className="bx">
-                    <label htmlFor="">Course Type</label>
-                    <input type="text" defaultValue={restStates.coursetype} onChange={(e) => restStates.setCoursetype(e.target.value)} placeholder='Computer Science' className="input" />
+                    <label htmlFor="">Supervisor</label>
+                    <select className="select" onChange={(e) => restStates.setSupervisor(e.target.value)}>
+                        <option value="">----</option>
+                        {
+                            loading === true ?
+                                "fetching supervisors..."
+                                :
+                                error !== "" ?
+                                    <option value="">{error}</option>
+                                    :
+                                    supervisor.length === 0 ?
+                                        <option value="">No supervisor available</option>
+                                        :
+                                        supervisor.map((users) => {
+                                            if (users.type === "staff" && users.type !== "student") {
+                                                return (<option value={users.userId}>{users.userName} ({users.type})</option>)
+                                            }
+                                        })
+
+                        }
+                    </select>
                 </div>
                 <div className="bx">
-                    <label htmlFor="">Course Name</label>
-                    <input type="text" defaultValue={restStates.coursename} onChange={(e) => restStates.setCoursename(e.target.value)} placeholder='Intro to OS' className="input" />
+                    <label htmlFor="">HOD's</label>
+                    <select className="select" onChange={(e) => restStates.setHOD(e.target.value)}>
+                        <option value="">----</option>
+                        {
+                            loading === true ?
+                                "fetching HOD's..."
+                                :
+                                error !== "" ?
+                                    <option value="">{error}</option>
+                                    :
+                                    HOD.length === 0 ?
+                                        <option value="">No HOD available</option>
+                                        :
+                                        HOD.map((users) => {
+                                            if (users.type === "staff" && users.type !== "student") {
+                                                return (<option value={users.userId}>{users.userName} ({users.type})</option>)
+                                            }
+                                        })
+
+                        }
+                    </select>
                 </div>
             </div>
             <div className="file-cont">
