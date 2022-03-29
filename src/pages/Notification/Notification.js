@@ -16,7 +16,11 @@ function Notifications() {
     const { locData, localData, fetchUser } = useContext(DataContext);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [updatingloading, setUpdatingLoading] = useState(false);
     const [data, setData] = useState([]);
+
+    // update state
+    const [update, setUpdate] = useState("notupdated")
 
     async function fetchNotifications() {
         try {
@@ -50,11 +54,66 @@ function Notifications() {
 
     useEffect(() => {
         fetchNotifications();
-    }, []);
+    }, [update]);
+
+    async function markAsRead(id, userid) {
+
+        try {
+            let url = apiRoutes.updateNotification;
+            let options = {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${localData.refreshToken}`,
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    userId: userid,
+                    notificationId: id
+                })
+            };
+            let res = await fetch(url, options);
+            let data = await res.json();
+
+            if (data && data.error === true) {
+                return notif.error(data.message);
+            }
+            setUpdate(update === "notupdated" ? "updated" : "notupdated")
+        } catch (err) {
+            return console.error(err.message);
+        }
+    }
+
+    async function deleteNotification(id, userid) {
+        try {
+            let url = apiRoutes.deleteNotification;
+            let options = {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${localData.refreshToken}`,
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    userId: userid,
+                    notificationId: id
+                })
+            };
+            let res = await fetch(url, options);
+            let data = await res.json();
+
+            if (data && data.error === true) {
+                return notif.error(data.message);
+            }
+            setUpdate(update === "notupdated" ? "updated" : "notupdated")
+        } catch (err) {
+            return console.error(err.message);
+        }
+    }
+
+    const unreadNotifications = data.filter((not) => not.isSeen === "false").length
 
     return (
         <Layout>
-            <LeftNavbar active="notifications" />
+            <LeftNavbar active="notifications" notificationCount={unreadNotifications} />
             <MainCont>
                 <TopNavbar activeBar="Notification" />
 
@@ -71,21 +130,51 @@ function Notifications() {
                                 <p>Loading...</p>
                                 :
                                 error !== "" ?
-                                    <p>{error}</p>
+                                    <p className='ml-5'>{error}</p>
                                     :
                                     data && data.length === 0 ?
-                                        <p>No notifications.</p>
+                                        <p className='ml-3'>No notifications.</p>
                                         :
                                         data.map((not) => {
                                             return (
-                                                <li className={not.isSeen === "false" ? "list unread" : "list read"} dangerouslySetInnerHTML={not.message}>{not.message}</li>
+                                                <li key={not.id} className={not.isSeen === "false" ? "list unread" : "list read"}
+                                                    data-not_id={not.id}
+                                                    data-user_id={not.userId}
+                                                    onClick={(async (e) => {
+
+                                                        let tgt = e.target.dataset
+                                                        if (Object.entries(tgt).length > 1) {
+                                                            const { not_id, user_id } = tgt;
+
+                                                            if (e.target.classList.contains("list")) {
+                                                                return await markAsRead(not_id, user_id)
+                                                            }
+                                                        }
+                                                    })}
+                                                >
+                                                    {not.message}
+                                                    {not.isSeen === "false" && <kbd>unread</kbd>}
+
+                                                    <button className="btn btn-danger"
+                                                        data-not_id={not.id}
+                                                        data-user_id={not.userId}
+                                                        onClick={(async (e) => {
+
+                                                            let tgt = e.target.dataset
+                                                            if (Object.entries(tgt).length > 1) {
+                                                                const { not_id, user_id } = tgt;
+
+                                                                await deleteNotification(not_id, user_id)
+                                                            }
+                                                        })}>delete</button>
+                                                </li>
                                             )
                                         })
                         }
                     </ul>
                 </div>
             </MainCont>
-        </Layout>
+        </Layout >
     )
 }
 
