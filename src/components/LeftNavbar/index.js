@@ -12,8 +12,9 @@ import DataContext from "../../context/DataContext";
 
 const util = new Util()
 
-function LeftNavbar({ active }) {
+function LeftNavbar({ active, notificationCount }) {
     const { fetchUser } = useContext(DataContext)
+    const [notdata, setNotData] = useState([])
     const [data, setData] = useState("")
     const [loading, setLoading] = useState("");
     const [error, setError] = useState("")
@@ -28,6 +29,33 @@ function LeftNavbar({ active }) {
         })()
 
     }, [])
+
+    async function markAsRead(id, userid) {
+
+        try {
+            let url = apiRoutes.updateNotification;
+            let options = {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${localData.refreshToken}`,
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    userId: userid,
+                    notificationId: id
+                })
+            };
+            let res = await fetch(url, options);
+            let data = await res.json();
+
+            if (data && data.error === true) {
+                return notif.error(data.message);
+            }
+            setNotData(data.data)
+        } catch (err) {
+            return console.error(err.message);
+        }
+    }
 
     const user = data && data.length > 0 ? data[0] : data;
 
@@ -44,7 +72,7 @@ function LeftNavbar({ active }) {
                 </Link>}
                 <Link to="/user/notifications" className={active === "notifications" ? "link active" : "link"}>
                     <RiNotification2Fill className="icon" />
-                    Notification
+                    Notification {notificationCount === 0 ? "" : <span className="badge badge-success ml-1">{notificationCount}</span>}
                 </Link>
                 <Link to="/user/settings" className={active === "settings" ? "link active" : "link"}>
                     <FaCog className="icon" />
