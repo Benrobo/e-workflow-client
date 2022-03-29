@@ -1,0 +1,35 @@
+.notification-cont{
+    width: 60%;
+    height: auto;
+    padding: 0px;
+    background: var(--dark1);
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+.notification-cont .head{
+    opacity: .6;
+    padding:20px;
+}
+
+.notification-cont .not-list{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    flex-direction: column;
+}
+
+
+.notification-cont .not-list .list{
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.notification-cont .not-list .list.unread{
+    background: var(--gr2);
+    color: var(--gr1);
+} 

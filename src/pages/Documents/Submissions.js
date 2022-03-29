@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import MainCont from "../../components/MainCont/MainCont";
 import LeftNavbar from "../../components/LeftNavbar";
 
@@ -9,6 +9,8 @@ import { Notification } from "../../helpers/util";
 import DataContext from "../../context/DataContext";
 import apiRoutes from "../../api_routes";
 import Badge from "../../components/Badge/badge";
+import { FaCheckCircle } from 'react-icons/fa'
+
 const notif = new Notification(4000);
 
 function Submissions() {
@@ -272,6 +274,13 @@ function ViewDocument({ documentId, setDocView }) {
   // approve and reject
   const [approveloading, setApproveLoading] = useState(false);
   const [rejectloading, setRejectLoading] = useState(false);
+  // adding signature
+  const [studentId, setStudentId] = useState("")
+  const [doctype, setDocType] = useState("")
+  // view updated doc
+  const [viewupdoc, setViewUpDoc] = useState(false)
+  const [viewsign, setViewSign] = useState(false)
+  const [docid, setDocId] = useState("")
 
   async function fetchDoc() {
     if (documentId === "") return;
@@ -300,6 +309,7 @@ function ViewDocument({ documentId, setDocView }) {
       console.log(result.document[0]);
       setDocData(result.document);
       setStaffId(result.document[0].staffId);
+      setStudentId(result.document[0].userId)
     } catch (err) {
       setFetchLoading(false);
       setDocFetchError(err.message);
@@ -536,7 +546,7 @@ function ViewDocument({ documentId, setDocView }) {
                 <div className="frame-cont">
                   <iframe src={doc.file} className="doc-preview"></iframe>
                   {/* View Signature */}
-                  <ViewDocumentSignatures />
+                  <ViewDocumentSignatures studentId={studentId} documentId={doc.id} />
                   <br />
                   <br />
                   <br />
@@ -561,13 +571,44 @@ function ViewDocument({ documentId, setDocView }) {
                     }
                   />
                   <br />
-                  <label htmlFor="">Cordinator</label>
-                  <p>{doc.userName.toUpperCase()}</p>
+                  <label htmlFor="">HOD NAME</label>
+                  <p>{doc.hodName.toUpperCase()}</p>
+                  <br />
+                  <label htmlFor="">Student Name</label>
+                  <p>{doc.studentName.toUpperCase()}</p>
                   <br />
                 </div>
                 <div className="action">
                   <div className="btn-action">
-                    {(doc.documentPermissions === 4) && (
+                    {(doc.documentPermissions > 1 && localData.type !== "student") && (
+                      <button
+                        className="btn approve"
+                        data-doc_id={doc.id}
+                        data-student_id={doc.userId}
+                        data-doc_type={doc.documentType}
+                        onClick={(e) => {
+                          let tgt = e.target.dataset;
+                          if (Object.entries(tgt).length > 0) {
+                            const { doc_id, student_id, doc_type } = tgt;
+                            setDocId(doc_id);
+                            setViewSign(true)
+                            setStudentId(student_id)
+                            setDocType(doc_type)
+                          }
+                        }}
+                      >
+                        Add Signature
+                      </button>
+                    )}
+                    <button
+                      className="btn report"
+                      onClick={(e) => {
+                        setViewUpDoc(!viewupdoc)
+                      }}
+                    >
+                      View Documents
+                    </button>
+                    {/* {(doc.documentPermissions === 4) && (
                       <button
                         className="btn approve"
                         disabled={approveloading ? true : false}
@@ -602,7 +643,7 @@ function ViewDocument({ documentId, setDocView }) {
                       >
                         {rejectloading ? "Rejecting..." : "Reject"}
                       </button>
-                    )}
+                    )} */}
                     {doc.documentType === "FYP" && (
                       <button
                         className="btn report"
@@ -742,6 +783,10 @@ function ViewDocument({ documentId, setDocView }) {
                   )}
                 </div>
                 {/* Add Signature */}
+
+                {/* Updated Document */}
+                {viewupdoc && <ViewUpdatedDocuments />}
+                {viewsign && <SignDocument studentId={studentId} setViewSign={setViewSign} doctype={doctype} documentId={docid} />}
               </div>
             </>
           );
@@ -752,12 +797,134 @@ function ViewDocument({ documentId, setDocView }) {
 }
 
 
-function ViewDocumentSignatures() {
+function ViewUpdatedDocuments() {
+
+  return (
+    <div className="updated-doc">
+      <h2>View Updated Doc</h2>
+    </div>
+  )
+}
+
+function ViewDocumentSignatures({ studentId, documentId }) {
+  const { localData } = useContext(DataContext);
+  const [loading, setLoading] = useState(false)
+  const [deletingloading, setDeleteLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [data, setData] = useState([])
+  const [image, setImage] = useState("")
+  const [viewimg, setViewImg] = useState(false)
+
+  // deleting signature
+  const [staffId, setStaffId] = useState("")
+  // const [studentId, setStudentId] = useState("")
+  const [signatureId, setSignatureId] = useState("")
+
+  // fetch all signatures based on selected document
+  async function fetchSignatures() {
+    if (documentId !== "") {
+      try {
+        setLoading(true);
+        let url = apiRoutes.getSignatures;
+        let options = {
+          method: "post",
+          headers: {
+            Authorization: `Bearer ${localData.refreshToken}`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            documentId
+          }),
+        };
+        let res = await fetch(url, options);
+        let result = await res.json();
+
+        setLoading(false);
+
+        if (result && result.error === true) {
+          setError(result.message);
+          return;
+        }
+        console.log(result.data);
+        setData(result.data);
+      } catch (err) {
+        setLoading(false);
+        setError(err.message);
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchSignatures()
+  }, [])
+
+  async function deleteSignature(signature_id, staff_id) {
+    if (documentId !== "" && studentId !== "" && staff_id !== "" && signature_id !== "") {
+      try {
+        setDeleteLoading(true);
+        let url = apiRoutes.deleteSignature;
+        let options = {
+          method: "delete",
+          headers: {
+            Authorization: `Bearer ${localData.refreshToken}`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            documentId,
+            staffId: staff_id,
+            studentId,
+            signatureId: signature_id
+          })
+        };
+        let res = await fetch(url, options);
+        let result = await res.json();
+
+        setDeleteLoading(false);
+
+        if (result && result.error === true) {
+          notif.error(result.message);
+          return;
+        }
+        notif.success(result.message);
+        setTimeout(() => {
+          window.location.reload(true)
+        }, 1000);
+      } catch (err) {
+        setDeleteLoading(false);
+        notif.error(err.message);
+      }
+    }
+  }
+
+  // get documentPermission type
+  function docPermission(docPermission) {
+    switch (docPermission) {
+      case 2:
+        return "H.O.D"
+        break;
+      case 4:
+        return "Supervisor"
+        break
+      case 5:
+        return "School Officer"
+        break
+      case 6:
+        return "Course Advisor"
+        break
+      case 7:
+        return "External Supervisor"
+        break
+
+      default:
+        return "Staff"
+        break;
+    }
+  }
 
   return (
     <div className="doc-signature mt-3 mb-3">
       <div className="head">
-        <p>Document Signature <kbd>0/3</kbd> </p>
+        <p>Document Signature <kbd>{data.length}/3</kbd> </p>
       </div>
       <br />
       <table className="signature-tbl">
@@ -771,21 +938,179 @@ function ViewDocumentSignatures() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>cdsc</td>
-            <td>Bolla Gruu</td>
-            <td>School Officer</td>
-            <td>
-              <kbd>none</kbd>
-            </td>
-            <td>
-              <button className="btn btn-danger">
-                del
-              </button>
-            </td>
-          </tr>
+          {loading ?
+            <tr> <td>Fetching signatures</td> </tr>
+            :
+            error !== "" ?
+              <tr> <td>{error}</td> </tr>
+              :
+              data && data.length === 0 ?
+                <tr> <td>No signature available</td> </tr>
+                :
+                data.map((list) => {
+                  return (
+                    <tr>
+                      <td>{list.id.slice(0, 10)}...</td>
+                      <td>{list.userName}</td>
+                      <td>{docPermission(list.documentPermissions)}</td>
+                      <td>
+                        <FaCheckCircle className="icon" />
+                      </td>
+                      <td>
+                        {list.staffId === localData.id && <button className="btn del mr-2"
+                          data-signature_id={list.id}
+                          data-staff_id={list.staffId}
+                          onClick={async (e) => {
+                            let tgt = e.target.dataset
+                            if (Object.entries(tgt).length > 1) {
+                              const { signature_id, staff_id } = tgt;
+                              await deleteSignature(signature_id, staff_id)
+                            }
+                          }}
+                        >
+                          {deletingloading ? "loading.." : "Del"}
+                        </button>}
+                        <button className="btn view"
+                          data-signature={list.image}
+                          onClick={(e) => {
+                            let tgt = e.target.dataset
+                            if (Object.entries(tgt).length > 0) {
+                              const { signature } = tgt;
+                              setViewImg(true)
+                              setImage(signature)
+                            }
+                          }}
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                })
+          }
         </tbody>
       </table>
+
+      {/* Image View Image */}
+      {viewimg && <div className="img-cont" onClick={(e) => {
+        if (e.target.classList.contains("img-cont")) {
+          setViewImg(false)
+        }
+      }}>
+        <img src={image} alt="signature" className="img" />
+      </div>}
+    </div>
+  )
+}
+
+function SignDocument({ setViewSign, documentId, studentId, doctype }) {
+  const { localData } = useContext(DataContext);
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const canvasRef = useRef()
+  const ctxRef = useRef()
+  const [isdrawing, setIsdrawing] = useState(false)
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d")
+    ctx.strokeStyle = "black"
+    ctx.lineWidth = 2
+    ctx.lineCap = "round"
+    ctxRef.current = ctx
+
+  }, [])
+
+  function startDrawing(e) {
+    setIsdrawing(true)
+    const { nativeEvent } = e;
+    const { offsetX, offsetY } = nativeEvent
+    ctxRef.current.beginPath(0, 0)
+    ctxRef.current.moveTo(offsetX, offsetY)
+  }
+
+  function finishDrawing() {
+    setIsdrawing(false)
+    ctxRef.current.closePath()
+  }
+
+  function draw(e) {
+    if (!isdrawing) return
+
+    const { nativeEvent } = e;
+    const { offsetX, offsetY } = nativeEvent
+    ctxRef.current.lineTo(offsetX - 20, offsetY - 15)
+    ctxRef.current.stroke()
+  }
+
+  function clearCanvas() {
+    ctxRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+  }
+
+  async function saveSignature() {
+    const imageUrl = canvasRef.current.toDataURL()
+    if (documentId && studentId) {
+      try {
+        setLoading(true);
+        let url = apiRoutes.addSignature;
+        let options = {
+          method: "post",
+          headers: {
+            Authorization: `Bearer ${localData.refreshToken}`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            documentId,
+            documentType: doctype,
+            image: imageUrl,
+            staffId: localData.id,
+            studentId
+          }),
+        };
+        let res = await fetch(url, options);
+        let result = await res.json();
+
+        setLoading(false);
+
+        if (result && result.error === true) {
+          setError(result.message);
+          notif.error(result.message)
+          return;
+        }
+        notif.success(result.message)
+        setTimeout(() => {
+          window.location.reload(true)
+        }, 1000);
+        // setData(result.data);
+      } catch (err) {
+        setLoading(false);
+        setError(err.message);
+        notif.error(err.message)
+      }
+    }
+
+  }
+
+  return (
+    <div className="sign-doc">
+      <div className="main">
+        <canvas
+          className="canvas"
+          onMouseDown={startDrawing}
+          onMouseUp={finishDrawing}
+          onMouseMove={draw}
+          ref={canvasRef}
+        ></canvas>
+
+        <br />
+        <div className="action">
+          <button className="btn btn-danger" onClick={() => setViewSign(false)}>Close</button>
+          <button className="btn btn-info" onClick={clearCanvas}>Clear</button>
+          <button className="btn save" onClick={saveSignature}>
+            {loading ? "Saving..." : "Save Signature"}
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

@@ -34,6 +34,12 @@ const apiRoutes = {
     getDocsGroupId: `${protocol}//${hostname}:5000/api/documents/groups/id`,
     approveDocument: `${protocol}//${hostname}:5000/api/document/approve`,
     rejectDocument: `${protocol}//${hostname}:5000/api/document/reject`,
+    getSignatures: `${protocol}//${hostname}:5000/api/signature/get`,
+    addSignature: `${protocol}//${hostname}:5000/api/signature/add`,
+    deleteSignature: `${protocol}//${hostname}:5000/api/signature/delete`,
+    getNotifications: `${protocol}//${hostname}:5000/api/notifications/get`,
+    updateNotification: `${protocol}//${hostname}:5000/api/notification/update`,
+    deleteNotification: `${protocol}//${hostname}:5000/api/notification/delete`,
 };
 
 export default apiRoutes;

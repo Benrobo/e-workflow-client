@@ -337,6 +337,28 @@
     height: auto;
 }
 
+
+.view-document .document-container .doc-signature .img-cont{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: rgba(0,0,0,.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.view-document .document-container .doc-signature .img-cont .img{
+    width: 20%;
+    background: #fff;
+    text-align: center;
+    color: #000;
+}
+
 .view-document .document-container .doc-signature table{
     width: 100%;
     height: auto;
@@ -347,15 +369,32 @@
 .view-document .document-container .doc-signature table th{
     font-size: 15px;
     font-weight: 200;
+    text-align: center;
 }
 
 .view-document .document-container .doc-signature table tbody tr td{
     background: var(--dark2);
+    text-align: center;
+    color: var(--light3);
+    font-size: 12px;
+}
+
+.view-document .document-container .doc-signature table tbody tr td .icon{
+    color: var(--gr1);
 }
 
 .view-document .document-container .doc-signature table tbody tr td .btn{
     font-size: 12px;
+}
 
+.view-document .document-container .doc-signature table tbody tr td .btn.del{
+    background: var(--red2);
+    color: var(--red1);
+}
+
+.view-document .document-container .doc-signature table tbody tr td .btn.view{
+    background: var(--gr2);
+    color: var(--gr1);
 }
 
 .view-document .right-menu{
@@ -507,3 +546,74 @@
     font-size: 14px;
 }
 
+
+/* Updated Doc */
+.updated-doc{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    text-align: center;
+    color: #000;
+}
+
+
+/* Sign Doc */
+.sign-doc{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: rgba(0,0,0,.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1000;
+    text-align: center;
+}
+.sign-doc .main{
+    width: 400px;
+    height: auto;
+    padding: 20px;
+    background: var(--dark2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sign-doc .main .canvas{
+    width: 100%;
+    height: 200px;
+    background: #fff;
+}
+
+.sign-doc .main .action{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: row;
+    
+}
+
+.sign-doc .main .action .close-btn{
+    background: var(--red1);
+    color: #fff;
+}
+
+
+.sign-doc .main .action .save{
+    background: var(--gr2);
+    color: var(--gr1);
+    padding: 10px 20px;
+}
