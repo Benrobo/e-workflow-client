@@ -188,7 +188,11 @@ after doing that, the postgresql terminal directory should change into the one b
 
 ```sql
 
-1. -- users table
+-- database creation
+
+CREATE DATABASE "e-workflow";
+
+-- Tables Creations
 
 CREATE TABLE "users"(
     id TEXT NOT NULL unique primary key,
@@ -205,7 +209,6 @@ CREATE TABLE "users"(
     "documentPermissions" INT
 );
 
-2. -- groups table
 
 CREATE TABLE "groups"(
     id TEXT NOT NULL,
@@ -217,9 +220,6 @@ CREATE TABLE "groups"(
     "created_at" TEXT NOT NULL
 );
 
-
-3. -- document table
-
 CREATE TABLE "documents"(
     id TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -228,14 +228,16 @@ CREATE TABLE "documents"(
     "courseName" TEXT NOT NULL,
     "userId" TEXT , -- this would be filled up when submitting course form
     "groupId" TEXT, -- this would be filled up when submitting final year project
-    "staffId" TEXT NOT NULL,
+    "supervisor" TEXT,
+    "externalSupervisor" TEXT,
+    "schoolOfficer" TEXT,
+    "courseAdvisor" TEXT,
+    "HOD" TEXT,
     "status" TEXT NOT NULL,
     "file" TEXT NOT NULL,
     "created_at" TEXT NOT NULL
 );
 
-
-4. -- feedbacks table
 
 CREATE TABLE "docFeedback"(
     id TEXT NOT NULL  unique primary key,
@@ -246,12 +248,28 @@ CREATE TABLE "docFeedback"(
 );
 
 
-
-5. -- codes table 
-
 CREATE TABLE "codes"(
     "userId" TEXT NOT NULL,
     "token" TEXT NOT NULL,
+    "issued_at" TEXT NOT NULL
+);
+
+CREATE TABLE "notifications"(
+    "id" TEXT NOT NULL  unique primary key,
+    "userId" TEXT NOT NULL,
+    "staffId" TEXT,
+    "message" TEXT NOT NULL,
+    "isSeen" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "issued_at" TEXT NOT NULL
+);
+
+CREATE TABLE "signatures"(
+    "id" TEXT NOT NULL  unique primary key,
+    "documentId" TEXT NOT NULL,
+    "staffId" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
+    "documentType" TEXT NOT NULL,
     "issued_at" TEXT NOT NULL
 );
 
