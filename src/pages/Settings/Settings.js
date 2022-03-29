@@ -84,10 +84,34 @@ function Settings() {
 export default Settings;
 
 function Profile({ data, setShowEdit }) {
-    const { userName, type, userRole, joined, mail, phoneNumber } = data[0];
+    const { userName, type, userRole, joined, mail, phoneNumber, documentPermissions } = data[0];
     const [loading, setLoading] = useState(false);
     const { localData } = useContext(DataContext);
 
+    // get documentPermission type
+    function docPermission(docPermission) {
+        switch (docPermission) {
+            case 2:
+                return "H.O.D"
+                break;
+            case 4:
+                return "Supervisor"
+                break
+            case 5:
+                return "School Officer"
+                break
+            case 6:
+                return "Course Advisor"
+                break
+            case 7:
+                return "External Supervisor"
+                break
+
+            default:
+                return "Staff"
+                break;
+        }
+    }
 
     async function deleteAccount() {
         const confirm = window.confirm("Are you sure you wanna delete this account ? this process is inreversible")
@@ -137,6 +161,7 @@ function Profile({ data, setShowEdit }) {
                 <div className="right">
                     <h4>{userName.toUpperCase()}</h4>
                     <span className="badge p-2">{type}</span>
+                    <span className="badge p-2">{docPermission(documentPermissions)}</span>
                     <span className="badge p-2">{userRole}</span>
                 </div>
             </div>

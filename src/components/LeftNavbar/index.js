@@ -9,11 +9,11 @@ import { IoMdDocument } from 'react-icons/io'
 import { TiZoomOutline } from 'react-icons/ti'
 import { Util } from "../../helpers/util"
 import DataContext from "../../context/DataContext";
-
+import apiRoutes from "../../api_routes";
 const util = new Util()
 
 function LeftNavbar({ active, notificationCount }) {
-    const { fetchUser } = useContext(DataContext)
+    const { fetchUser, localData } = useContext(DataContext)
     const [notdata, setNotData] = useState([])
     const [data, setData] = useState("")
     const [loading, setLoading] = useState("");
@@ -28,32 +28,32 @@ function LeftNavbar({ active, notificationCount }) {
             setError(error)
         })()
 
+        fetchNotifications()
     }, [])
 
-    async function markAsRead(id, userid) {
-
+    async function fetchNotifications() {
         try {
-            let url = apiRoutes.updateNotification;
+            let url = apiRoutes.getNotifications;
             let options = {
-                method: "PUT",
+                method: "POST",
                 headers: {
                     Authorization: `Bearer ${localData.refreshToken}`,
                     "content-type": "application/json",
                 },
                 body: JSON.stringify({
-                    userId: userid,
-                    notificationId: id
+                    userId: localData.id
                 })
             };
             let res = await fetch(url, options);
             let data = await res.json();
 
             if (data && data.error === true) {
-                return notif.error(data.message);
+                return setError(data.message);
             }
-            setNotData(data.data)
+            setNotData(data.data.filter((not) => not.isSeen === "false" && not.userId === localData.id));
         } catch (err) {
-            return console.error(err.message);
+            setLoading(false);
+            return setError(err.message);
         }
     }
 
@@ -72,7 +72,7 @@ function LeftNavbar({ active, notificationCount }) {
                 </Link>}
                 <Link to="/user/notifications" className={active === "notifications" ? "link active" : "link"}>
                     <RiNotification2Fill className="icon" />
-                    Notification {notificationCount === 0 ? "" : <span className="badge badge-success ml-1">{notificationCount}</span>}
+                    Notification {notdata.length === 0 ? "" : <span className="badge badge-success ml-1">{notdata.length}</span>}
                 </Link>
                 <Link to="/user/settings" className={active === "settings" ? "link active" : "link"}>
                     <FaCog className="icon" />
